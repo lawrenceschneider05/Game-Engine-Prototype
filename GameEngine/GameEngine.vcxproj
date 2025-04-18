@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="glad\glad.c" />
+    <ClCompile Include="src\core\application.cpp" />
     <ClCompile Include="src\ecs\physicssystem.cpp" />
     <ClCompile Include="src\ecs\componenttypes.cpp" />
     <ClCompile Include="src\ecs\ecsmanager.cpp" />
@@ -149,6 +150,7 @@
     <ClCompile Include="src\window\window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\core\application.h" />
     <ClInclude Include="src\ecs\componentarray.h" />
     <ClInclude Include="src\ecs\componentmanager.h" />
     <ClInclude Include="src\ecs\componentregistry.h" />
@@ -161,6 +163,7 @@
     <ClInclude Include="src\ecs\signatures.h" />
     <ClInclude Include="src\ecs\systemmanager.h" />
     <ClInclude Include="src\log\logger.h" />
+    <ClInclude Include="src\render\renderer.h" />
     <ClInclude Include="src\time\time.h" />
     <ClInclude Include="src\types.h" />
     <ClInclude Include="src\window\window.h" />

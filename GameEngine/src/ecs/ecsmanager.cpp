@@ -16,6 +16,7 @@ namespace GameEngine
 
 	void ECSManager::init()
 	{
+		// Doesn't need to be dynamic, hardcode it.
 		ComponentTypes::POSITION_SIGNATURE = cm.registerComponentType<Position>();
 		ComponentTypes::SIZE_SIGNATURE = cm.registerComponentType<Size>();
 		ComponentTypes::VELOCITY_SIGNATURE = cm.registerComponentType<Velocity>();

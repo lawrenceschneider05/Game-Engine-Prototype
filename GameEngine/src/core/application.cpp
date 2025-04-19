@@ -2,20 +2,28 @@
 #include <chrono>
 #include <iostream>
 #include "rendering/renderer.h"
+#include "log/logger.h"
+#include <string>
+
+using std::to_string;
 
 GameEngine::Application::Application()
 {
+    window = Window("Game Engine", screenWidth, screenHeight);
+    camera = Camera({ screenWidth, screenHeight });
+    camera.setPosition({ 0,0 });
+    camera.setZoom(1.0f);
 }
 
 GameEngine::Application::~Application()
 {
+    Renderer::shutdown();
 }
 
 void GameEngine::Application::init()
 {
     window.init();
     Renderer::init();
-
 }
 
 void GameEngine::Application::run()

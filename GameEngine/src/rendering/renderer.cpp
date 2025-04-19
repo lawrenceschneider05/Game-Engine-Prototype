@@ -60,7 +60,6 @@ namespace GameEngine
 		rendererState.bufferPointer = rendererState.bufferData;
 		
 		rendererState.shader = make_shared<Shader>("shaders/batch.vert", "shaders/batch.frag");
-		Logger::log(LOG_SUCCESS, "Renderer initialized");
 
 	}
 	void Renderer::shutdown()
@@ -70,7 +69,7 @@ namespace GameEngine
 
 	void Renderer::beginScene(Camera camera)
 	{
-		rendererState.viewProjection = camera.getViewProjMatrix();
+		rendererState.viewProjection = camera.getViewProjectionMatrix();
 		rendererState.quadIndexCount = 0;
 		rendererState.bufferPointer = rendererState.bufferData;
 	}
@@ -102,7 +101,8 @@ namespace GameEngine
 	}
 	void Renderer::flush()
 	{
-		u32 size = (u32*)rendererState.bufferPointer - (u32*)rendererState.bufferData;
+		//u32 size = (u32*)rendererState.bufferPointer - (u32*)rendererState.bufferData;
+		u32 size = (u8*)rendererState.bufferPointer - (u8*)rendererState.bufferData;
 		rendererState.vertexBuffer->setData(rendererState.bufferData, size);
 
 		rendererState.shader->bind();

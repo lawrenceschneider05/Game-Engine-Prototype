@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="glad\glad.c" />
+    <ClCompile Include="src\input\input.cpp" />
     <ClCompile Include="src\rendering\camera.cpp" />
     <ClCompile Include="src\rendering\shader.cpp" />
     <ClCompile Include="src\core\application.cpp" />
@@ -157,6 +158,7 @@
     <ClCompile Include="src\window\window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\input\input.h" />
     <ClInclude Include="src\rendering\shader.h" />
     <ClInclude Include="src\core\application.h" />
     <ClInclude Include="src\ecs\componentarray.h" />

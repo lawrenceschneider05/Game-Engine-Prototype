@@ -8,6 +8,12 @@ namespace GameEngine
 		bind();
 		glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
 	}
+	
+	VertexBuffer::~VertexBuffer()
+	{
+		glDeleteBuffers(1, &vbo);
+	}
+
 	void VertexBuffer::bind()
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);

@@ -1,6 +1,7 @@
 #pragma once
 #include "window/window.h"
 #include "types.h"
+#include "rendering/camera.h"
 
 namespace GameEngine
 {
@@ -13,7 +14,9 @@ namespace GameEngine
 		void run();
 	private:
 		Window window;
-		void update(f64 dt) {}
-		void render() {}
+		Camera camera;
+
+		void update(f64 dt);
+		void render();
 	};
 }

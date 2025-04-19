@@ -140,6 +140,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="glad\glad.c" />
+    <ClCompile Include="src\rendering\camera.cpp" />
+    <ClCompile Include="src\rendering\shader.cpp" />
     <ClCompile Include="src\core\application.cpp" />
     <ClCompile Include="src\ecs\physicssystem.cpp" />
     <ClCompile Include="src\ecs\componenttypes.cpp" />
@@ -147,9 +149,15 @@
     <ClCompile Include="src\ecs\entity.h" />
     <ClCompile Include="src\log\logger.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\rendering\indexbuffer.cpp" />
+    <ClCompile Include="src\rendering\rendercommand.cpp" />
+    <ClCompile Include="src\rendering\renderer.cpp" />
+    <ClCompile Include="src\rendering\vertexarray.cpp" />
+    <ClCompile Include="src\rendering\vertexbuffer.cpp" />
     <ClCompile Include="src\window\window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\rendering\shader.h" />
     <ClInclude Include="src\core\application.h" />
     <ClInclude Include="src\ecs\componentarray.h" />
     <ClInclude Include="src\ecs\componentmanager.h" />
@@ -163,7 +171,13 @@
     <ClInclude Include="src\ecs\signatures.h" />
     <ClInclude Include="src\ecs\systemmanager.h" />
     <ClInclude Include="src\log\logger.h" />
-    <ClInclude Include="src\render\renderer.h" />
+    <ClInclude Include="src\rendering\camera.h" />
+    <ClInclude Include="src\rendering\indexbuffer.h" />
+    <ClInclude Include="src\rendering\quadvertex.h" />
+    <ClInclude Include="src\rendering\rendercommand.h" />
+    <ClInclude Include="src\rendering\renderer.h" />
+    <ClInclude Include="src\rendering\vertexarray.h" />
+    <ClInclude Include="src\rendering\vertexbuffer.h" />
     <ClInclude Include="src\time\time.h" />
     <ClInclude Include="src\types.h" />
     <ClInclude Include="src\window\window.h" />

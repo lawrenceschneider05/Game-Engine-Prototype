@@ -1,6 +1,7 @@
 #include "application.h"
 #include <chrono>
 #include <iostream>
+#include "rendering/renderer.h"
 
 GameEngine::Application::Application()
 {
@@ -13,6 +14,8 @@ GameEngine::Application::~Application()
 void GameEngine::Application::init()
 {
     window.init();
+    Renderer::init();
+
 }
 
 void GameEngine::Application::run()
@@ -64,4 +67,15 @@ void GameEngine::Application::run()
             lastUpdatePrintTime = currentPrintTime;
         }
     }
+}
+
+void GameEngine::Application::update(f64 dt)
+{
+}
+
+void GameEngine::Application::render()
+{
+    Renderer::beginScene(camera);
+    Renderer::drawQuad({ 0,0 }, { 100,100 }, { 0,0,0,1 });
+    Renderer::endScene();
 }

@@ -4,15 +4,20 @@
 #include "rendering/renderer.h"
 #include "log/logger.h"
 #include <string>
+#include "input/input.h"
+#include <iostream>
+
+using std::cout;
 
 using std::to_string;
 
 GameEngine::Application::Application()
 {
     window = Window("Game Engine", screenWidth, screenHeight);
-    camera = Camera({ screenWidth, screenHeight });
-    camera.setPosition({ 0,0 });
-    camera.setZoom(1.0f);
+    camera = Camera(0.0f, 1600.0f, 0.0f, 900.0f);
+    //camera.setPosition({ 0,0 });
+    //camera.setZoom(1.0f);
+    
 }
 
 GameEngine::Application::~Application()
@@ -24,6 +29,7 @@ void GameEngine::Application::init()
 {
     window.init();
     Renderer::init();
+    Input::setWindowHandle(window);
 }
 
 void GameEngine::Application::run()
@@ -79,11 +85,26 @@ void GameEngine::Application::run()
 
 void GameEngine::Application::update(f64 dt)
 {
+    vec2 v = camera.ScreenToWorld(Input::getMousePosition(), window.getWindowSize());
+    // = Input::getMousePosition();
+    x = v.x;
+    y = v.y;
+    cout << x << " " << y << "\n";
+    if (Input::isKeyPressed(GLFW_KEY_SPACE))
+    {
+        camera.ZoomOut(1 * dt);
+        //cout << 10000 * dt<<"\n";
+    }
+    if (Input::isKeyPressed(GLFW_KEY_LEFT_SHIFT))
+    {
+        camera.ZoomOut(-1 * dt);
+    }
 }
 
 void GameEngine::Application::render()
 {
+    ///camera.setPosition({ x, y });
     Renderer::beginScene(camera);
-    Renderer::drawQuad({ 0,0 }, { 100,100 }, { 0,0,0,1 });
+    Renderer::drawQuad({ x,y }, { 100,100 }, { 0,0,0,1 });
     Renderer::endScene();
 }

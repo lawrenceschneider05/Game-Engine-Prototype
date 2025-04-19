@@ -69,7 +69,7 @@ namespace GameEngine
 
 	void Renderer::beginScene(Camera camera)
 	{
-		rendererState.viewProjection = camera.getViewProjectionMatrix();
+		rendererState.viewProjection = camera.GetViewProjectionMatrix();
 		rendererState.quadIndexCount = 0;
 		rendererState.bufferPointer = rendererState.bufferData;
 	}

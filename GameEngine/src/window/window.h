@@ -30,6 +30,11 @@ namespace GameEngine
 			glm::vec2 vec = { width, height };
 			return vec;
 		}
+
+		operator GLFWwindow* ()
+		{
+			return window;
+		}
 	private:
 		GLFWwindow* window;
 		int w,h;

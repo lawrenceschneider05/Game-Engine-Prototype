@@ -20,5 +20,6 @@ namespace GameEngine
 		void render();
 		const u32 screenWidth = 1600;
 		const u32 screenHeight = 900;
+		i32 x = 0, y = x;
 	};
 }

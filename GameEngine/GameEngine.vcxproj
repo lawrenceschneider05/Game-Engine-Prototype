@@ -159,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\input\input.h" />
+    <ClInclude Include="src\input\keycodes.h" />
     <ClInclude Include="src\rendering\shader.h" />
     <ClInclude Include="src\core\application.h" />
     <ClInclude Include="src\ecs\componentarray.h" />

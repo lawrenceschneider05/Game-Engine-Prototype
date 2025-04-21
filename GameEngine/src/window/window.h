@@ -16,7 +16,7 @@ namespace GameEngine
 	public:
 		Window(string title = "Game Engine", int width = 1600, int height = 900);
 		~Window();
-		void init();
+		void init(bool resizable);
 		bool shouldClose() { return glfwWindowShouldClose(window); }
 
 		void clear(float r, float g, float b, float a);

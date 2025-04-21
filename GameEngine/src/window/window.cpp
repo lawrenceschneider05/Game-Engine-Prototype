@@ -17,7 +17,7 @@ GameEngine::Window::~Window()
 	glfwDestroyWindow(window);
 }
 
-void GameEngine::Window::init()
+void GameEngine::Window::init(bool resizable)
 {
 	// Setup glfw
 	glfwInit();
@@ -25,6 +25,7 @@ void GameEngine::Window::init()
 	glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_RESIZABLE, resizable);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwSwapInterval(0);
 	glfwWindowHint(GLFW_SAMPLES, 8);

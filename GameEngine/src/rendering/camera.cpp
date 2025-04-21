@@ -1,76 +1,82 @@
-//#include "camera.h"
-//#include "glm/gtc/matrix_transform.hpp"
-//#include "log/logger.h"
-//#include <string>
-//
-//using std::to_string;
-//
-//namespace GameEngine
-//{
-//	Camera::Camera(vec2 size)
-//		: viewportSize(size)
-//	{
-//		recalculateProjection();
-//		recalculateView();
-//	}
-//
-//	void Camera::setPosition(const glm::vec2& position)
-//	{
-//		this->position = position;
-//		recalculateView();
-//	}
-//
-//	void Camera::setZoom(float zoomLevel)
-//	{
-//		zoom = zoomLevel;
-//		recalculateProjection();
-//		recalculateView();
-//	}
-//
-//	void Camera::setViewportSize(vec2 size)
-//	{
-//		viewportSize = size;
-//		recalculateProjection();
-//	}
-//
-//	void Camera::zoomOut(float amount)
-//	{
-//		zoom += amount;
-//		Logger::log(LOG_DEBUG, to_string(zoom));
-//	}
-//
-//	void Camera::move(vec2 vector)
-//	{
-//		position += vector;
-//	}
-//
-//	const mat4& Camera::getViewProjectionMatrix()
-//	{
-//		recalculateProjection();
-//		recalculateView();
-//		return viewProjectionMatrix;
-//	}
-//
-//	void Camera::recalculateProjection()
-//	{
-//		// Update the projection matrix based on the zoom level
-//		// The zoom level affects the 'left', 'right', 'top', and 'bottom' values for the orthographic projection
-//		float left = -viewportSize.x / 2.0f / zoom;
-//		float right = viewportSize.x / 2.0f / zoom;
-//		float bottom = -viewportSize.y / 2.0f / zoom;
-//		float top = viewportSize.y / 2.0f / zoom;
-//
-//		// Set up the orthographic projection matrix
-//		projectionMatrix = glm::ortho(left, right, bottom, top);
-//		recalculateView();
-//	}
-//
-//	void Camera::recalculateView()
-//	{
-//		/*mat4 transform = translate(glm::mat4(1.0f), vec3(-position, 0.0f));
-//		viewMatrix = transform;
-//		viewProjectionMatrix = projectionMatrix * viewMatrix;*/
-//		viewMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(-position.x, -position.y, 0.0f));
-//		viewProjectionMatrix = projectionMatrix * viewMatrix;
-//	}
-//}
+#include "camera.h"
+
+namespace GameEngine
+{
+	Camera::Camera()
+	{
+	}
+	Camera::Camera(float left, float right, float bottom, float top) : position(0.0f, 0.0f),
+		zoom(1.0f), viewportSize(right - left, top - bottom)
+	{
+		UpdateProjection();
+		UpdateView();
+	}
+
+	void Camera::SetPosition(const glm::vec2& position)
+	{
+		this->position = position;
+		UpdateView();
+	}
+
+	void Camera::SetZoom(float zoom)
+	{
+		zoom = glm::max(zoom, 0.01f); // Prevent zooming too close
+		UpdateProjection();
+	}
+
+	void Camera::ZoomOut(float zoom)
+	{
+		this->zoom += zoom;
+		UpdateProjection();
+	}
+
+	const glm::vec2 GameEngine::Camera::ScreenToWorld(const glm::vec2& screenCoords, const glm::vec2& windowSize)
+	{
+		// Convert to NDC (Normalized Device Coordinates)
+		// Flip Y-axis because GLFW's origin is top-left
+		float ndcX = (2.0f * screenCoords.x) / windowSize.x - 1.0f;
+		float ndcY = 1.0f - (2.0f * screenCoords.y) / windowSize.y;
+
+		// Create inverse of view-projection matrix
+		glm::mat4 inverseVP = glm::inverse(projectionMatrix * viewMatrix);
+
+		// Transform to world coordinates
+		glm::vec4 worldPos = inverseVP * glm::vec4(ndcX, ndcY, 0.0f, 1.0f);
+
+		return glm::vec2(worldPos.x, worldPos.y);
+	}
+
+	void Camera::SetViewportSize(float width, float height)
+	{
+		viewportSize = glm::vec2(width, height);
+		UpdateProjection();
+	}
+
+	void Camera::UpdateProjection()
+	{
+		// Calculate zoomed dimensions
+		float zoomedWidth = viewportSize.x / zoom;
+		float zoomedHeight = viewportSize.y / zoom;
+
+		// Create projection matrix centered at (0,0)
+		projectionMatrix = glm::ortho(
+			-zoomedWidth / 2, zoomedWidth / 2,
+			-zoomedHeight / 2, zoomedHeight / 2,
+			-1.0f, 1.0f
+		);
+
+		UpdateViewProjection();
+	}
+
+	void Camera::UpdateView()
+	{
+		viewMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(-position, 0.0f));
+		UpdateViewProjection();
+	}
+
+	void Camera::UpdateViewProjection()
+	{
+		viewProjectionMatrix = projectionMatrix * viewMatrix;
+	}
+
+}

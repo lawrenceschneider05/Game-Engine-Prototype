@@ -14,5 +14,6 @@ namespace GameEngine
 		static void setClearColor(const glm::vec4& color);
 		static void clear();
 		static void drawIndexed(const shared_ptr<VertexArray>& va);
+		static void setDebugMode(bool);
 	};
 }

@@ -22,4 +22,13 @@ namespace GameEngine
 		u32 count = va->getIndexBuffer()->getCount();
 		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
 	}
+	void RenderCommand::setDebugMode(bool wireFrame)
+	{
+		if (wireFrame)
+		{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			return;
+		}
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
 }

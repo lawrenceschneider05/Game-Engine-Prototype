@@ -114,4 +114,8 @@ namespace GameEngine
 
 		rendererState.bufferPointer = rendererState.bufferData;
 	}
+	void Renderer::setDebugMode(bool debug)
+	{
+		RenderCommand::setDebugMode(debug);
+	}
 }

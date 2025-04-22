@@ -12,11 +12,14 @@ GameEngine::Application::Application()
 {
     window = Window("Game Engine", screenWidth, screenHeight);
     camera = Camera(0.0f, screenWidth, 0.0f, screenHeight);
+
+    game = new Game();
 }
 
 GameEngine::Application::~Application()
 {
     Renderer::shutdown();
+    delete game;
 }
 
 void GameEngine::Application::init()
@@ -24,6 +27,8 @@ void GameEngine::Application::init()
     window.init(false);
     Renderer::init();
     Input::setWindowHandle(window);
+
+    
 }
 
 void GameEngine::Application::run()
@@ -96,11 +101,32 @@ void GameEngine::Application::update(f64 dt)
     {
         Renderer::setDebugMode(true);
     }
+    /*i32 camspeed = 500;
+    
+    if (Input::isKeyPressed(GLFW_KEY_W))
+    {
+        Logger::log(LOG_SUCCESS, "ok");
+        camera.move({ 0, -camspeed * dt });
+    }
+    if (Input::isKeyPressed(GLFW_KEY_S))
+    {
+        camera.move({ 0, camspeed * dt });
+    }
+    if (Input::isKeyPressed(GLFW_KEY_A))
+    {
+        camera.move({ -camspeed * dt, 0 });
+    }
+    if (Input::isKeyPressed(GLFW_KEY_D))
+    {
+        camera.move({ camspeed * dt, 0 });
+    }*/
+
+    game->update(dt);
 }
 
 void GameEngine::Application::render()
 {
     Renderer::beginScene(camera);
-    tm.render();
+    game->render();
     Renderer::endScene();
 }

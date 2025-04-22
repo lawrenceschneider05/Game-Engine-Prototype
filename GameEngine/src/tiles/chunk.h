@@ -20,13 +20,17 @@ namespace GameEngine
 	class Chunk
 	{
 	public:
-		Chunk();
+		Chunk(i32 x, i32 y);
 
 		TileType getTile(u32 x, u32 y);
 
 		void setTile(u32 x, u32 y, TileType type);
 
+		inline i32 getX() { return chunkX; }
+		inline i32 getY() { return chunkY; }
+
 	private:
+		i32 chunkX, chunkY;
 		array<TileType, CHUNK_WIDTH_TILES * CHUNK_HEIGHT_TILES> tiles;
 
 		inline u32 indexOf(u32 x, u32 y)

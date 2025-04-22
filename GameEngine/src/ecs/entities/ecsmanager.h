@@ -1,9 +1,9 @@
 #pragma once
 #include "entity.h"
-#include "systemmanager.h"
-#include "componentmanager.h"
+#include "ecs/systems/systemmanager.h"
+#include "ecs/components/componentmanager.h"
 #include "types.h"
-#include "signatures.h"
+#include "ecs/components/signatures.h"
 
 namespace GameEngine
 {
@@ -35,6 +35,7 @@ namespace GameEngine
 		}
 
 		void update(f64 dt);
+		void render();
 
 		vector<Entity> getFilteredEntities(Signature bitmask)
 		{

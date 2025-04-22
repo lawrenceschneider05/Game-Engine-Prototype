@@ -7,13 +7,11 @@ using std::to_string;
 
 namespace GameEngine
 {
-	TileManager::TileManager()
+	TileManager::TileManager() : testingChunk(-((i32)CHUNK_WIDTH_PIXELS / 2), -((i32)CHUNK_HEIGHT_PIXELS / 2))
 	{
-		testingChunk = Chunk();
-
-		for (int y = 0; y < CHUNK_HEIGHT_TILES; y += 2)
+		for (int y = 0; y < CHUNK_HEIGHT_TILES; y++)
 		{
-			for (int x = 0; x < CHUNK_WIDTH_TILES; x += 2)
+			for (int x = 0; x < CHUNK_WIDTH_TILES; x++)
 			{
 				testingChunk.setTile(x, y, TILE_GRASS);
 			}
@@ -24,11 +22,12 @@ namespace GameEngine
 	}
 	void TileManager::render()
 	{
+		
 		for (int y = 0; y < CHUNK_HEIGHT_TILES; y++)
 		{
 			for (int x = 0; x < CHUNK_WIDTH_TILES; x++)
 			{
-				renderTile(testingChunk.getTile(x, y), x * TILE_WIDTH, y * TILE_HEIGHT);
+				renderTile(testingChunk.getTile(x, y), testingChunk.getX() + (x * TILE_WIDTH), testingChunk.getY() + (y * TILE_HEIGHT));
 			}
 		}
 	}

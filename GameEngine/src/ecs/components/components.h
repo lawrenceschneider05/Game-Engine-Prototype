@@ -10,7 +10,7 @@ namespace GameEngine
 
 	struct Size
 	{
-		i32 w, h;
+		f32 w, h;
 	};
 
 	struct Velocity
@@ -30,7 +30,7 @@ namespace GameEngine
 
 	struct Color
 	{
-		i8 r, g, b;
+		i8 r, g, b, a;
 	};
 
 	struct Script

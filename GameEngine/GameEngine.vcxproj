@@ -139,15 +139,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\core\entityfactory.cpp" />
     <ClCompile Include="glad\glad.c" />
+    <ClCompile Include="src\core\game.cpp" />
+    <ClCompile Include="src\ecs\systems\rendersystem.cpp" />
     <ClCompile Include="src\input\input.cpp" />
+    <ClCompile Include="src\physics\physics.cpp" />
     <ClCompile Include="src\rendering\camera.cpp" />
     <ClCompile Include="src\rendering\shader.cpp" />
     <ClCompile Include="src\core\application.cpp" />
-    <ClCompile Include="src\ecs\physicssystem.cpp" />
-    <ClCompile Include="src\ecs\componenttypes.cpp" />
-    <ClCompile Include="src\ecs\ecsmanager.cpp" />
-    <ClCompile Include="src\ecs\entity.h" />
+    <ClCompile Include="src\ecs\systems\physicssystem.cpp" />
+    <ClCompile Include="src\ecs\components\componenttypes.cpp" />
+    <ClCompile Include="src\ecs\entities\ecsmanager.cpp" />
+    <ClCompile Include="src\ecs\entities\entity.h" />
     <ClCompile Include="src\log\logger.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\rendering\indexbuffer.cpp" />
@@ -160,21 +164,24 @@
     <ClCompile Include="src\window\window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\core\entityfactory.h" />
+    <ClInclude Include="src\core\game.h" />
+    <ClInclude Include="src\ecs\systems\rendersystem.h" />
     <ClInclude Include="src\input\input.h" />
     <ClInclude Include="src\input\keycodes.h" />
+    <ClInclude Include="src\physics\physics.h" />
     <ClInclude Include="src\rendering\shader.h" />
     <ClInclude Include="src\core\application.h" />
-    <ClInclude Include="src\ecs\componentarray.h" />
-    <ClInclude Include="src\ecs\componentmanager.h" />
-    <ClInclude Include="src\ecs\componentregistry.h" />
-    <ClInclude Include="src\ecs\components.h" />
-    <ClInclude Include="src\ecs\componenttypes.h" />
-    <ClInclude Include="src\ecs\ecsmanager.h" />
-    <ClInclude Include="src\ecs\icomponentarray.h" />
-    <ClInclude Include="src\ecs\isystem.h" />
-    <ClInclude Include="src\ecs\physicssystem.h" />
-    <ClInclude Include="src\ecs\signatures.h" />
-    <ClInclude Include="src\ecs\systemmanager.h" />
+    <ClInclude Include="src\ecs\components\componentarray.h" />
+    <ClInclude Include="src\ecs\components\componentmanager.h" />
+    <ClInclude Include="src\ecs\components\componentregistry.h" />
+    <ClInclude Include="src\ecs\components\components.h" />
+    <ClInclude Include="src\ecs\components\componenttypes.h" />
+    <ClInclude Include="src\ecs\entities\ecsmanager.h" />
+    <ClInclude Include="src\ecs\components\icomponentarray.h" />
+    <ClInclude Include="src\ecs\systems\physicssystem.h" />
+    <ClInclude Include="src\ecs\components\signatures.h" />
+    <ClInclude Include="src\ecs\systems\systemmanager.h" />
     <ClInclude Include="src\log\logger.h" />
     <ClInclude Include="src\rendering\camera.h" />
     <ClInclude Include="src\rendering\indexbuffer.h" />

@@ -81,6 +81,7 @@ namespace GameEngine
 	{
 		if (rendererState.quadIndexCount > rendererState.MAX_INDICES)
 		{
+			//Logger::log(LOG_SUCCESS, "called");
 			flush();
 		}
 
@@ -98,6 +99,7 @@ namespace GameEngine
 		}
 
 		rendererState.quadIndexCount += 6;
+		
 	}
 	void Renderer::flush()
 	{

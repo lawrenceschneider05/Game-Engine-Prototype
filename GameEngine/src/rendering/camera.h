@@ -1,7 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-
+#include "log/logger.h"
 
 namespace GameEngine
 {
@@ -17,6 +17,16 @@ namespace GameEngine
         void SetZoom(float zoom);
 
         void ZoomOut(float zoom);
+
+        inline void move(glm::vec2 vec)
+        {
+            Logger::log(LOG_DEBUG, position.x);
+            Logger::log(LOG_DEBUG, position.y);
+            position += vec;
+            Logger::log(LOG_DEBUG, position.x);
+            Logger::log(LOG_DEBUG, position.y);
+            UpdateView();
+        }
 
         inline float GetZoom() const { return zoom; }
 

@@ -2,7 +2,7 @@
 #include "window/window.h"
 #include "types.h"
 #include "rendering/camera.h"
-#include "tiles/tilemanager.h"
+#include "game.h"
 
 namespace GameEngine
 {
@@ -16,7 +16,8 @@ namespace GameEngine
 	private:
 		Window window;
 		Camera camera;
-		TileManager tm;
+
+		Game* game;
 
 		void update(f64 dt);
 		void render();

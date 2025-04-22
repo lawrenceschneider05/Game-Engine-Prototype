@@ -1,10 +1,9 @@
 #pragma once
-#include "entity.h"
+#include "ecs/entities/entity.h"
 #include "componentarray.h"
 #include <unordered_map>
 #include <typeindex>
 #include <memory>
-#include "isystem.h"
 #include "componentregistry.h"
 #include "log/logger.h"
 #include <string>

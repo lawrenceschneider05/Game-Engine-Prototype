@@ -11,5 +11,6 @@ namespace GameEngine
 		static Signature VELOCITY_SIGNATURE;
 		static Signature ACCELERATION_SIGNATURE;
 		static Signature TAG_SIGNATURE;
+		static Signature COLOR_SIGNATURE;
 	};
 }

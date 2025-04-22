@@ -1,6 +1,6 @@
 #include "ecsmanager.h"
-#include "components.h"
-#include "componenttypes.h"
+#include "ecs/components/components.h"
+#include "ecs/components/componenttypes.h"
 
 namespace GameEngine
 {
@@ -22,6 +22,7 @@ namespace GameEngine
 		ComponentTypes::VELOCITY_SIGNATURE = cm.registerComponentType<Velocity>();
 		ComponentTypes::ACCELERATION_SIGNATURE = cm.registerComponentType<Acceleration>();
 		ComponentTypes::TAG_SIGNATURE = cm.registerComponentType<Tag>();
+		ComponentTypes::COLOR_SIGNATURE = cm.registerComponentType<Color>();
 
 		sm.init();
 	}
@@ -29,5 +30,9 @@ namespace GameEngine
 	void ECSManager::update(f64 dt)
 	{
 		sm.update(dt);
+	}
+	void ECSManager::render()
+	{
+		sm.render();
 	}
 }

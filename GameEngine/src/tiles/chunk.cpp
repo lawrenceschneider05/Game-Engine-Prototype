@@ -8,7 +8,6 @@ namespace GameEngine
 		this->chunkX = x;
 		this->chunkY = y;
 
-		tiles = {TileType::TILE_EMPTY};
 		fill(tiles.begin(), tiles.end(), TileType::TILE_EMPTY);
 	}
 	TileType Chunk::getTile(u32 x, u32 y)

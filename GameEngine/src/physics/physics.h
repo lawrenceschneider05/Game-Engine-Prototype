@@ -8,10 +8,13 @@ namespace GameEngine
 {
 	struct PhysicsObject
 	{
-		f32 x, y, w, h;
-		f32 vx, vy, ax, ay;
+		f32& x, y, w, h;
+		f32& vx, vy, ax, ay;
 	};
-	constexpr f32 GRAVITY = 100;
+	constexpr f32 METER = 64;
+	constexpr f32 GRAVITY = METER * 1;
+	constexpr f32 TERMINAL_VELOCITY = METER * 10;
+	
 
 	class Physics
 	{

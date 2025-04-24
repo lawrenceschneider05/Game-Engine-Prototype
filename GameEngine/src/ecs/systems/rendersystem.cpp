@@ -13,15 +13,12 @@ namespace GameEngine
 	}
 	void RenderSystem::render()
 	{
-		Logger::log(LOG_SUCCESS, entities.size());
 		for (auto e : entities)
 		{
 			Position& p = *cm.getComponent<Position>(e);
 			Size& s = *cm.getComponent<Size>(e);
 			Color& c = *cm.getComponent<Color>(e);
-
 			Renderer::drawQuad({ p.x, p.y }, { s.w, s.h }, { c.r, c.g, c.b, c.a });
-			Logger::log(LOG_SUCCESS, "entity drawn");
 		}
 	}
 	void RenderSystem::onComponentChanged()

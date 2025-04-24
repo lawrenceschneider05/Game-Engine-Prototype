@@ -5,6 +5,7 @@
 #include "ecs/components/componentmanager.h"
 #include "physicssystem.h"
 #include "rendersystem.h"
+#include "tiles/tilemanager.h"
 
 
 using std::vector;
@@ -15,10 +16,11 @@ using std::make_unique;
 
 namespace GameEngine
 {
+
 	class SystemManager
 	{
 	public:
-		SystemManager(ComponentManager& _cm) : cm(_cm), ps(_cm), rs(_cm)
+		SystemManager(ComponentManager& cm, TileManager& tm) : ps(cm, tm), rs(cm)
 		{
 
 		}
@@ -55,7 +57,6 @@ namespace GameEngine
 			rs.onComponentChanged();
 		}
 	private:
-		ComponentManager& cm;
 		PhysicsSystem ps;
 		RenderSystem rs;
 	};

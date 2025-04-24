@@ -38,7 +38,7 @@ namespace GameEngine
 			}
 
 			Physics::processCollisions(obj, possibleCollisions, dt);
-			possibleCollisions = {};
+			possibleCollisions.clear();
 			
 		}
 	}

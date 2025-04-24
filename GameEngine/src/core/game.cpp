@@ -5,7 +5,11 @@ namespace GameEngine
 	Game::Game()
 	{
 		EntityFactory factory = EntityFactory();
-		ecs = factory.init();
+		ecs = factory.init(tm);
+	}
+	Game::~Game()
+	{
+		//delete ecs;
 	}
 	void Game::update(f64 dt)
 	{

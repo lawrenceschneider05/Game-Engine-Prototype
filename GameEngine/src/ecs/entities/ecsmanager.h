@@ -10,7 +10,7 @@ namespace GameEngine
 	class ECSManager
 	{
 	public:
-		ECSManager();
+		ECSManager(TileManager& tm);
 		void init();
 		Entity addEntity();
 		
@@ -49,6 +49,7 @@ namespace GameEngine
 			}
 			return entities;
 		}
+
 	private:
 		ComponentManager cm;
 		SystemManager sm;

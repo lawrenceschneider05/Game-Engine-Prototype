@@ -4,7 +4,7 @@
 
 namespace GameEngine
 {
-	ECSManager::ECSManager() : sm(cm)
+	ECSManager::ECSManager(TileManager& tm) : sm(cm, tm)
 	{
 		size = 0;
 	}

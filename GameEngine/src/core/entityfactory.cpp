@@ -8,9 +8,9 @@ namespace GameEngine
 
 	}
 
-	unique_ptr<ECSManager> EntityFactory::init()
+	unique_ptr<ECSManager> EntityFactory::init(TileManager& tm)
 	{
-		auto ecs = make_unique<ECSManager>();
+		auto ecs = make_unique<ECSManager>(tm);
 		ecs->init();
 		initPlayer(ecs);
 		
@@ -21,13 +21,11 @@ namespace GameEngine
 	void EntityFactory::initPlayer(unique_ptr<ECSManager>& ecs)
 	{
 		Entity player = ecs->addEntity();
-		ecs->addComponent<Position>(player, { 0,0 });
+		ecs->addComponent<Position>(player, { 0,300 });
 		ecs->addComponent<Size>(player, { 64, 64 });
-		ecs->addComponent<Velocity>(player, { 10,0 });
+		ecs->addComponent<Velocity>(player, { 0,0 });
 		ecs->addComponent<Acceleration>(player, { 0,0 });
 		Color c = { 210 / 255.0, 175 / 255.0, 111 / 255.0, 1.0f };
 		ecs->addComponent<Color>(player, c);
 	}
-
-	
 }

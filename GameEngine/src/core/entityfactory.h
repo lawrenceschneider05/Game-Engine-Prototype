@@ -10,7 +10,7 @@ namespace GameEngine
 	{
 	public:
 		EntityFactory();
-		unique_ptr<ECSManager> init();
+		unique_ptr<ECSManager> init(TileManager& tm);
 	private:
 		void initPlayer(unique_ptr<ECSManager>& ecs);
 	};

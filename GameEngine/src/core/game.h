@@ -12,6 +12,7 @@ namespace GameEngine
 	{
 	public:
 		Game();
+		~Game();
 
 		void update(f64 dt);
 		void render();

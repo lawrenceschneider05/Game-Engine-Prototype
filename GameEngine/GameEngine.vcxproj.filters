@@ -84,6 +84,9 @@
     <ClCompile Include="src\physics\physics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\tiles\tilecollidergrid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\log\logger.h">
@@ -180,6 +183,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\tiles\chunk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tiles\tilecollidergrid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

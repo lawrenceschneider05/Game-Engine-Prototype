@@ -32,14 +32,15 @@ namespace GameEngine
 		u32 quadIndexCount;
 
 		mat4 viewProjection;
-	} rendererState;
+	} *rendererState;
 	void Renderer::init()
 	{
-		rendererState.vertexArray = make_shared<VertexArray>();
-		rendererState.vertexBuffer = make_shared<VertexBuffer>(rendererState.MAX_VERTICES * sizeof(QuadVertex));
-		rendererState.vertexArray->setVertexBuffer(rendererState.vertexBuffer);
+		rendererState = new RendererState();
+		rendererState->vertexArray = make_shared<VertexArray>();
+		rendererState->vertexBuffer = make_shared<VertexBuffer>(rendererState->MAX_VERTICES * sizeof(QuadVertex));
+		rendererState->vertexArray->setVertexBuffer(rendererState->vertexBuffer);
 		u32 offset = 0;
-		vector<u32> indices = vector<u32>(rendererState.MAX_INDICES);
+		vector<u32> indices = vector<u32>(rendererState->MAX_INDICES);
 		for (unsigned int i = 0; i < RendererState::MAX_INDICES; i += 6)
 		{
 			indices[i + 0] = 0 + offset;
@@ -53,25 +54,27 @@ namespace GameEngine
 		}
 
 		shared_ptr<IndexBuffer> indexBuffer = std::make_shared<IndexBuffer>(indices);
-		rendererState.vertexArray->setIndexBuffer(indexBuffer);
+		rendererState->vertexArray->setIndexBuffer(indexBuffer);
 
 
-		rendererState.bufferData = new QuadVertex[rendererState.MAX_VERTICES];
-		rendererState.bufferPointer = rendererState.bufferData;
+		rendererState->bufferData = new QuadVertex[rendererState->MAX_VERTICES];
+		rendererState->bufferPointer = rendererState->bufferData;
 		
-		rendererState.shader = make_shared<Shader>("shaders/batch.vert", "shaders/batch.frag");
+		rendererState->shader = make_shared<Shader>("shaders/batch.vert", "shaders/batch.frag");
 
 	}
 	void Renderer::shutdown()
 	{
-		delete[] rendererState.bufferData;
+		delete[] rendererState->bufferData;
+		delete rendererState;
+		
 	}
 
 	void Renderer::beginScene(Camera camera)
 	{
-		rendererState.viewProjection = camera.GetViewProjectionMatrix();
-		rendererState.quadIndexCount = 0;
-		rendererState.bufferPointer = rendererState.bufferData;
+		rendererState->viewProjection = camera.GetViewProjectionMatrix();
+		rendererState->quadIndexCount = 0;
+		rendererState->bufferPointer = rendererState->bufferData;
 	}
 	void Renderer::endScene()
 	{
@@ -79,7 +82,7 @@ namespace GameEngine
 	}
 	void Renderer::drawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
 	{
-		if (rendererState.quadIndexCount > rendererState.MAX_INDICES)
+		if (rendererState->quadIndexCount > rendererState->MAX_INDICES)
 		{
 			//Logger::log(LOG_SUCCESS, "called");
 			flush();
@@ -93,28 +96,28 @@ namespace GameEngine
 		};
 
 		for (int i = 0; i < 4; i++) {
-			rendererState.bufferPointer->position = pos[i];
-			rendererState.bufferPointer->color = color;
-			rendererState.bufferPointer++;
+			rendererState->bufferPointer->position = pos[i];
+			rendererState->bufferPointer->color = color;
+			rendererState->bufferPointer++;
 		}
 
-		rendererState.quadIndexCount += 6;
+		rendererState->quadIndexCount += 6;
 		
 	}
 	void Renderer::flush()
 	{
-		//u32 size = (u32*)rendererState.bufferPointer - (u32*)rendererState.bufferData;
-		u32 size = (u8*)rendererState.bufferPointer - (u8*)rendererState.bufferData;
-		rendererState.vertexBuffer->setData(rendererState.bufferData, size);
+		//u32 size = (u32*)rendererState->bufferPointer - (u32*)rendererState->bufferData;
+		u32 size = (u8*)rendererState->bufferPointer - (u8*)rendererState->bufferData;
+		rendererState->vertexBuffer->setData(rendererState->bufferData, size);
 
-		rendererState.shader->bind();
-		rendererState.shader->setMat4("uniformViewProj", rendererState.viewProjection);
+		rendererState->shader->bind();
+		rendererState->shader->setMat4("uniformViewProj", rendererState->viewProjection);
 
-		RenderCommand::drawIndexed(rendererState.vertexArray);
+		RenderCommand::drawIndexed(rendererState->vertexArray);
 
-		rendererState.quadIndexCount = 0;
+		rendererState->quadIndexCount = 0;
 
-		rendererState.bufferPointer = rendererState.bufferData;
+		rendererState->bufferPointer = rendererState->bufferData;
 	}
 	void Renderer::setDebugMode(bool debug)
 	{

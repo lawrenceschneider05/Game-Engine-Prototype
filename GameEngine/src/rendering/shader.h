@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <glm/glm.hpp>
+#include <glad/glad.h>
 
 using std::string;
 using namespace glm;
@@ -11,6 +12,10 @@ namespace GameEngine
 	{
 	public:
 		Shader() {}
+		~Shader()
+		{
+			glDeleteShader(program);
+		}
 		Shader(string vertPath, string fragPath);
 		void bind();
 		void setMat4(string, mat4);

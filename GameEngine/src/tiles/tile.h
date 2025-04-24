@@ -12,9 +12,8 @@ namespace GameEngine
 	constexpr u32 TILE_WIDTH = 16;
 	constexpr u32 TILE_HEIGHT = TILE_WIDTH;
 
-	struct Tile
+	struct TileCollider
 	{
-		TileType type;
-		f32 w, h;
+		f32 top, bottom, left, right;
 	};
 }

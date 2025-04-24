@@ -162,6 +162,7 @@
     <ClCompile Include="src\tiles\chunk.cpp" />
     <ClCompile Include="src\tiles\tilemanager.cpp" />
     <ClCompile Include="src\window\window.cpp" />
+    <ClCompile Include="src\tiles\tilecollidergrid.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\entityfactory.h" />
@@ -196,6 +197,7 @@
     <ClInclude Include="src\time\time.h" />
     <ClInclude Include="src\types.h" />
     <ClInclude Include="src\window\window.h" />
+    <ClInclude Include="src\tiles\tilecollidergrid.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -6,6 +6,7 @@
 #include "physicssystem.h"
 #include "rendersystem.h"
 #include "tiles/tilemanager.h"
+#include "inputsystem.h"
 
 
 using std::vector;
@@ -20,7 +21,7 @@ namespace GameEngine
 	class SystemManager
 	{
 	public:
-		SystemManager(ComponentManager& cm, TileManager& tm) : ps(cm, tm), rs(cm)
+		SystemManager(ComponentManager& cm, TileManager& tm) : ps(cm, tm), rs(cm), is(cm)
 		{
 
 		}
@@ -30,6 +31,7 @@ namespace GameEngine
 			//systemArray.emplace_back((ISystem*)(new PhysicsSystem(cm)));
 			ps.init();
 			rs.init();
+			is.init();
 		}
 		inline void update(f64 dt)
 		{
@@ -37,6 +39,7 @@ namespace GameEngine
 			{
 				s->update(dt);
 			}*/
+			is.update(dt);
 			ps.update(dt);
 		}
 		inline void render()
@@ -55,9 +58,11 @@ namespace GameEngine
 			}*/
 			ps.onComponentChanged();
 			rs.onComponentChanged();
+			is.onComponentChanged();
 		}
 	private:
 		PhysicsSystem ps;
 		RenderSystem rs;
+		InputSystem is;
 	};
 }

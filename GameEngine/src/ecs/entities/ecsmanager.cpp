@@ -23,6 +23,7 @@ namespace GameEngine
 		ComponentTypes::ACCELERATION_SIGNATURE = cm.registerComponentType<Acceleration>();
 		ComponentTypes::TAG_SIGNATURE = cm.registerComponentType<Tag>();
 		ComponentTypes::COLOR_SIGNATURE = cm.registerComponentType<Color>();
+		ComponentTypes::PLAYER_MOVEMENT_SIGNATURE = cm.registerComponentType<PlayerController>();
 
 		sm.init();
 	}

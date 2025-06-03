@@ -54,7 +54,5 @@ namespace GameEngine
 		ComponentManager cm;
 		SystemManager sm;
 		Entity size;
-
-		
 	};
 }

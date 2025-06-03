@@ -15,7 +15,7 @@ namespace GameEngine
 		~Game();
 
 		void update(f64 dt);
-		void render();
+		void render(f64 dt);
 	private:
 		unique_ptr<ECSManager> ecs;
 		TileManager tm;

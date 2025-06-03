@@ -15,8 +15,9 @@ namespace GameEngine
 	{
 		ecs->update(dt);
 	}
-	void Game::render()
+	void Game::render(f64 dt)
 	{
+		
 		tm.render();
 		ecs->render();
 	}

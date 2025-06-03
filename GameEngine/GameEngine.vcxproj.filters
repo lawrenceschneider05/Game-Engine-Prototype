@@ -87,6 +87,9 @@
     <ClCompile Include="src\tiles\tilecollidergrid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ecs\systems\inputsystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\log\logger.h">
@@ -186,6 +189,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\tiles\tilecollidergrid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ecs\systems\inputsystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

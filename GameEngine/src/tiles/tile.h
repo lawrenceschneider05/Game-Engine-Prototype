@@ -14,6 +14,7 @@ namespace GameEngine
 
 	struct TileCollider
 	{
-		f32 top, bottom, left, right;
+		TileType type;
+		f32 x, y, w, h;
 	};
 }

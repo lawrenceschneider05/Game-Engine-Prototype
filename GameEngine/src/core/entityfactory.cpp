@@ -25,6 +25,7 @@ namespace GameEngine
 		ecs->addComponent<Size>(player, { 64, 64 });
 		ecs->addComponent<Velocity>(player, { 0,0 });
 		ecs->addComponent<Acceleration>(player, { 0,0 });
+		ecs->addComponent<PlayerController>(player, {});
 		Color c = { 210 / 255.0, 175 / 255.0, 111 / 255.0, 1.0f };
 		ecs->addComponent<Color>(player, c);
 	}

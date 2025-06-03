@@ -60,7 +60,7 @@ void GameEngine::Application::run()
         if (elapsedTime.count() >= TARGET_FRAME_TIME) {
             // Clear screen and render
             window.clear(152 / 255.0, 245 / 255.0, 249 / 255.0, 1);
-            render();
+            render(deltaTime.count());
             window.swapBuffers();
             lastRenderTime = std::chrono::high_resolution_clock::now();
             renderFrameCount++;
@@ -124,9 +124,11 @@ void GameEngine::Application::update(f64 dt)
     game->update(dt);
 }
 
-void GameEngine::Application::render()
+void GameEngine::Application::render(f64 dt)
 {
     Renderer::beginScene(camera);
-    game->render();
+
+    game->render(dt);
+    Renderer::drawQuad({ 0,0 }, { 128,128 }, { 0,0,0,1.0f });
     Renderer::endScene();
 }

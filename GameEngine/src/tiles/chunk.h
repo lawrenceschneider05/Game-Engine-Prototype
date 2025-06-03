@@ -11,11 +11,11 @@ using std::array;
 
 namespace GameEngine
 {
-	constexpr u32 CHUNK_WIDTH_TILES = 16;
-	constexpr u32 CHUNK_HEIGHT_TILES = 16;
+	constexpr i32 CHUNK_WIDTH_TILES = 16;
+	constexpr i32 CHUNK_HEIGHT_TILES = 16;
 
-	constexpr u32 CHUNK_WIDTH_PIXELS = CHUNK_WIDTH_TILES * TILE_WIDTH;
-	constexpr u32 CHUNK_HEIGHT_PIXELS = CHUNK_HEIGHT_TILES * TILE_HEIGHT;
+	constexpr f32 CHUNK_WIDTH_PIXELS = CHUNK_WIDTH_TILES * TILE_WIDTH;
+	constexpr f32 CHUNK_HEIGHT_PIXELS = CHUNK_HEIGHT_TILES * TILE_HEIGHT;
 
 	class Chunk
 	{
@@ -26,16 +26,36 @@ namespace GameEngine
 
 		void setTile(u32 x, u32 y, TileType type);
 
-		inline i32 getX() { return chunkX; }
-		inline i32 getY() { return chunkY; }
+		inline f32 getX() { return chunkX; }
+		inline f32 getY() { return chunkY; }
+
+		inline vector<TileCollider> getTiles()
+		{
+			vector<TileCollider> tiles;
+			for (int y = 0; y < CHUNK_HEIGHT_TILES; y++)
+			{
+				for (int x = 0; x < CHUNK_WIDTH_TILES; x++)
+				{
+					tiles.push_back(getTileCollider(x, y));
+				}
+			}
+			return tiles;
+		}
 
 	private:
-		i32 chunkX, chunkY;
+		f32 chunkX, chunkY;
 		array<TileType, CHUNK_WIDTH_TILES * CHUNK_HEIGHT_TILES> tiles;
 
 		inline u32 indexOf(u32 x, u32 y)
 		{
 			return y * CHUNK_HEIGHT_TILES + x;
+		}
+
+		inline TileCollider getTileCollider(f32 x, f32 y)
+		{
+			f32 tileX = chunkX + (x * TILE_WIDTH);
+			f32 tileY = chunkY + (y * TILE_HEIGHT);
+			return { getTile(x, y), tileX, tileY, TILE_WIDTH, TILE_HEIGHT };
 		}
 	};
 }

@@ -33,7 +33,7 @@ namespace GameEngine
 			Velocity& v = *cm.getComponent<Velocity>(e);
 			Acceleration& a = *cm.getComponent<Acceleration>(e);
 
-			return { p.x, p.y, s.w, s.h, v.vx, v.vy, a.ax, a.ay };
+			return PhysicsObject(p.x, p.y, s.w, s.h, v.vx, v.vy, a.ax, a.ay);
 		}
 
 		inline void applyPhysicsObject(Entity e, PhysicsObject obj)

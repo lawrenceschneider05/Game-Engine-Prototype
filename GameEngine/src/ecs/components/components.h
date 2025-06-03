@@ -37,4 +37,8 @@ namespace GameEngine
 	{
 		bool run;
 	};
+
+	struct PlayerController
+	{
+	};
 }

@@ -142,6 +142,7 @@
     <ClCompile Include="src\core\entityfactory.cpp" />
     <ClCompile Include="glad\glad.c" />
     <ClCompile Include="src\core\game.cpp" />
+    <ClCompile Include="src\ecs\systems\inputsystem.cpp" />
     <ClCompile Include="src\ecs\systems\rendersystem.cpp" />
     <ClCompile Include="src\input\input.cpp" />
     <ClCompile Include="src\physics\physics.cpp" />
@@ -167,6 +168,7 @@
   <ItemGroup>
     <ClInclude Include="src\core\entityfactory.h" />
     <ClInclude Include="src\core\game.h" />
+    <ClInclude Include="src\ecs\systems\inputsystem.h" />
     <ClInclude Include="src\ecs\systems\rendersystem.h" />
     <ClInclude Include="src\input\input.h" />
     <ClInclude Include="src\input\keycodes.h" />

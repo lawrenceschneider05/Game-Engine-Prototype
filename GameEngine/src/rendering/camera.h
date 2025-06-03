@@ -20,11 +20,11 @@ namespace GameEngine
 
         inline void move(glm::vec2 vec)
         {
-            Logger::log(LOG_DEBUG, position.x);
-            Logger::log(LOG_DEBUG, position.y);
+            //Logger::log(LOG_DEBUG, position.x);
+            // Logger::log(LOG_DEBUG, position.y);
             position += vec;
-            Logger::log(LOG_DEBUG, position.x);
-            Logger::log(LOG_DEBUG, position.y);
+            //Logger::log(LOG_DEBUG, position.x);
+            //Logger::log(LOG_DEBUG, position.y);
             UpdateView();
         }
 

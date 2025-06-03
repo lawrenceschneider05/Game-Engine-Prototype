@@ -14,9 +14,13 @@ namespace GameEngine
 		~TileManager();
 
 		void render();
-	private:
-		void renderTile(TileType, u32, u32);
 
+		Chunk getChunk()
+		{
+			return testingChunk;
+		}
+	private:
+		void renderTile(TileType, f32, f32);
 		Chunk testingChunk;
 	};
 }

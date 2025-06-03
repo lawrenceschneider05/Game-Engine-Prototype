@@ -8,4 +8,5 @@ namespace GameEngine
     Signature ComponentTypes::ACCELERATION_SIGNATURE = 0;
     Signature ComponentTypes::TAG_SIGNATURE = 0;
     Signature ComponentTypes::COLOR_SIGNATURE = 0;
+    Signature ComponentTypes::PLAYER_MOVEMENT_SIGNATURE = 0;
 }

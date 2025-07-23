@@ -4,7 +4,9 @@
 #include <stdlib.h>  
 #include <crtdbg.h>   //for malloc and free
 
+#include <fstream>
 #include <iostream>
+#include <vector>
 
 using std::cout;
 using namespace GameEngine;
@@ -18,6 +20,8 @@ int main() {
 	Application app{};
 	app.init();
 	app.run();
+	
+
 	glfwTerminate();
 	//int* a = new int(sizeof(int) * 10);
 	_CrtMemCheckpoint(&sNew); //take a snapshot 

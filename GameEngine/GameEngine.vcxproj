@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\chunks\chunkserializer.cpp" />
     <ClCompile Include="glad\glad.c" />
     <ClCompile Include="src\physics\physicsmanager.cpp" />
     <ClCompile Include="src\core\game.cpp" />
@@ -156,12 +157,11 @@
     <ClCompile Include="src\rendering\vertexarray.cpp" />
     <ClCompile Include="src\rendering\vertexbuffer.cpp" />
     <ClCompile Include="src\scene\sandbox.cpp" />
-    <ClCompile Include="src\tiles\chunk.cpp" />
-    <ClCompile Include="src\tiles\tilemanager.cpp" />
+    <ClCompile Include="src\chunks\chunkmanager.cpp" />
     <ClCompile Include="src\window\window.cpp" />
-    <ClCompile Include="src\tiles\tilecollidergrid.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\chunks\chunkserializer.h" />
     <ClInclude Include="src\physics\aabb.h" />
     <ClInclude Include="src\physics\collision.h" />
     <ClInclude Include="src\physics\physicsmanager.h" />
@@ -185,13 +185,10 @@
     <ClInclude Include="src\rendering\vertexbuffer.h" />
     <ClInclude Include="src\scene\iscene.h" />
     <ClInclude Include="src\scene\sandbox.h" />
-    <ClInclude Include="src\tiles\tile.h" />
-    <ClInclude Include="src\tiles\tilemanager.h" />
-    <ClInclude Include="src\tiles\chunk.h" />
+    <ClInclude Include="src\chunks\chunkmanager.h" />
     <ClInclude Include="src\time\time.h" />
     <ClInclude Include="src\types.h" />
     <ClInclude Include="src\window\window.h" />
-    <ClInclude Include="src\tiles\tilecollidergrid.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

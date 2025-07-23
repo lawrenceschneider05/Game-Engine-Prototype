@@ -1,7 +1,7 @@
 #pragma once
 #include "iscene.h"
 #include "entities/player.h"
-#include "tiles/tilemanager.h"
+#include "chunks/chunkmanager.h"
 #include "physics/physicsmanager.h"
 
 namespace GameEngine
@@ -14,7 +14,7 @@ namespace GameEngine
 		void render() override;
 	private:
 		Player player;
-		TileManager tm;
+		ChunkManager tm;
 		PhysicsManager pm;
 	};
 }

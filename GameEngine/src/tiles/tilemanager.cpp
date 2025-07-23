@@ -12,6 +12,8 @@ namespace GameEngine
 		addChunk((-CHUNK_WIDTH_PIXELS / 2), (-CHUNK_HEIGHT_PIXELS / 2));
 		addChunk((CHUNK_WIDTH_PIXELS / 2), (-CHUNK_HEIGHT_PIXELS / 2));
 		addChunk((-3 * CHUNK_WIDTH_PIXELS / 2), (-CHUNK_HEIGHT_PIXELS / 2));
+		addChunk((-3 * CHUNK_WIDTH_PIXELS / 2), (CHUNK_HEIGHT_PIXELS / 2));
+		addChunk((CHUNK_WIDTH_PIXELS / 2), (CHUNK_HEIGHT_PIXELS / 2));
 	}
 	TileManager::~TileManager()
 	{
@@ -47,11 +49,29 @@ namespace GameEngine
 				renderTile(c->getTile(x, y), c->getX() + ((float)x * TILE_WIDTH), c->getY() + ((float)y * TILE_HEIGHT));
 			}
 		}
-		Renderer::drawQuad({ c->getX(), c->getY() }, { CHUNK_WIDTH_PIXELS, CHUNK_HEIGHT_PIXELS }, { 0.0f, 0.0f, 0.0f, 1.0f });
+		//Renderer::drawQuad({ c->getX(), c->getY() }, { CHUNK_WIDTH_PIXELS, CHUNK_HEIGHT_PIXELS }, { 0.0f, 0.0f, 0.0f, 1.0f });
 	}
 	void TileManager::addTile(Chunk* c, TileType t, f32 x, f32 y)
 	{
 		tilesUpdated = true;
 		c->setTile(x, y, TILE_GRASS);
+	}
+
+	vector<AABB> TileManager::getColliders()
+	{
+		vector<AABB> colliders = {};
+		for (Chunk* c : chunks)
+		{
+			for (int i = 0; i < c->getTiles().size(); i++)
+			{
+				AABB collider;
+				collider.x = c->getX() + (i % 16) * TILE_WIDTH;
+				collider.y = c->getY() + (i / 16) * TILE_HEIGHT;
+				collider.w = TILE_WIDTH;
+				collider.h = TILE_HEIGHT;
+				colliders.push_back(collider);
+			}
+		}
+		return colliders;
 	}
 }

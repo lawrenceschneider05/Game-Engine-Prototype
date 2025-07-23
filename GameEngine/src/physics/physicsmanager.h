@@ -16,12 +16,24 @@ namespace GameEngine
 		
 		void applyPhysics(f32 dt);
 
-		inline void addBody(PhysicsBody* pb)
+
+		inline void addDynamicObject(PhysicsBody* pb)
 		{
-			bodies.push_back(pb);
+			dynamicObjects.push_back(pb);
+		}
+
+		inline void addStaticColliders(const vector<AABB>& colliders)
+		{
+			//staticObjects.insert(staticObjects.end(), colliders.begin(), colliders.end());
+		
+			for (const auto& collider : colliders)
+			{
+				staticObjects.push_back(collider);
+			}
 		}
 	private:
-		vector<PhysicsBody*> bodies{};
+		vector<AABB> staticObjects{};
+		vector<PhysicsBody*> dynamicObjects{};
 		vector<Collision> collisions{};
 
 		void applyGravity(f64 dt);
@@ -32,6 +44,6 @@ namespace GameEngine
 
 		void resetGroundState();
 
-		void resolveStaticDynamicCollision(const PhysicsBody& staticBody, PhysicsBody& dynamicBody);
+		void resolveStaticDynamicCollision(const AABB& staticObject, PhysicsBody& dynamicObject);
 	};
 }

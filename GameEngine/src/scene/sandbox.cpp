@@ -5,10 +5,10 @@
 
 namespace GameEngine
 {
-	Sandbox::Sandbox() : player(0,200,16,32)
+	Sandbox::Sandbox() : player(0,128,16,32)
 	{
-		pm.addBody(&player.getPhysicsBody());
-
+		pm.addDynamicObject(&player.getPhysicsBody());
+		pm.addStaticColliders(tm.getColliders());
 		/*for (const Tile& t : tm.getChunk().getTiles())
 		{
 			pm.addBody(new PhysicsBody({ t.x, t.y, t.w, t.h }, false, true));

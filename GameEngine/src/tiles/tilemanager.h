@@ -2,6 +2,7 @@
 #include <vector>
 #include "tile.h"
 #include "chunk.h"
+#include "physics/aabb.h"
 
 using std::vector;
 
@@ -21,6 +22,7 @@ namespace GameEngine
 			tilesUpdated = false;
 			return b; 
 		}
+		vector<AABB> getColliders();
 	private:
 		vector<Chunk*> chunks{};
 		void renderChunk(Chunk* c);

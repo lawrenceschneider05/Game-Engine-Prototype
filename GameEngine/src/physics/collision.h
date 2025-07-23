@@ -10,4 +10,6 @@ namespace GameEngine
 		Collision(PhysicsBody& _pb1, PhysicsBody& _pb2) : 
 			pb1(_pb1), pb2(_pb2) {}
 	};
+
+
 }

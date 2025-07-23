@@ -7,14 +7,15 @@ namespace GameEngine
 	void PhysicsManager::detectCollisions(f32 dt)
 	{
 		i16 numCollisions = 0;
-		for (int i = 0; i < bodies.size() - 1; i++)
+		for (int i = 0; i < dynamicObjects.size(); i++)
 		{
-			for (int j = i + 1; j < bodies.size(); j++)
+			for (int j = 0; j < staticObjects.size(); j++)
 			{
-				if (AABBIsCollision(bodies[i]->aabb, bodies[j]->aabb))
+				if (AABBIsCollision(dynamicObjects[i]->aabb, staticObjects[j]))
 				{
 					numCollisions++;
-					Collision c = { *bodies[i], *bodies[j] };
+					PhysicsBody s = PhysicsBody(staticObjects[j], false, true);
+					Collision c = { *dynamicObjects[i], s };
 					collisions.push_back(c);
 				}
 			}
@@ -34,7 +35,7 @@ namespace GameEngine
 
 	void PhysicsManager::integrate(f64 dt)
 	{
-		for (PhysicsBody* pb : bodies)
+		for (PhysicsBody* pb : dynamicObjects)
 		{
 			if (pb->isStatic) { continue; }
 			pb->motion.vx += pb->motion.ax * dt;
@@ -45,7 +46,7 @@ namespace GameEngine
 	}
 	void PhysicsManager::applyGravity(f64 dt)
 	{
-		for (PhysicsBody* pb : bodies)
+		for (PhysicsBody* pb : dynamicObjects)
 		{
 
 			if (!pb->gravity && pb->grounded) { continue; }
@@ -69,11 +70,11 @@ namespace GameEngine
 			}
 			else if (!c.pb1.isStatic && c.pb2.isStatic)
 			{
-				resolveStaticDynamicCollision(c.pb2, c.pb1);
+				resolveStaticDynamicCollision(c.pb2.aabb, c.pb1);
 			}
 			else if (c.pb1.isStatic && !c.pb2.isStatic)
 			{
-				resolveStaticDynamicCollision(c.pb1, c.pb2);
+				resolveStaticDynamicCollision(c.pb1.aabb, c.pb2);
 			}
 		}
 		collisions.clear();
@@ -82,7 +83,7 @@ namespace GameEngine
 
 	void PhysicsManager::resetGroundState()
 	{
-		for (PhysicsBody* pb : bodies)
+		for (PhysicsBody* pb : dynamicObjects)
 		{
 			if (!pb->isStatic)
 			{
@@ -91,20 +92,19 @@ namespace GameEngine
 		}
 	}
 
-	void PhysicsManager::resolveStaticDynamicCollision(const PhysicsBody& staticBody, PhysicsBody& dynamicBody)
+	void PhysicsManager::resolveStaticDynamicCollision(const AABB& staticCollider, PhysicsBody& dynamicBody)
 	{
-		const AABB& a = staticBody.aabb;
 		AABB& b = dynamicBody.aabb;
 
-		f32 overlapX = std::max(0.0f, std::min(a.x + a.w, b.x + b.w) - std::max(a.x, b.x));
-		f32 overlapY = std::max(0.0f, std::min(a.y + a.h, b.y + b.h) - std::max(a.y, b.y));
+		f32 overlapX = std::max(0.0f, std::min(staticCollider.x + staticCollider.w, b.x + b.w) - std::max(staticCollider.x, b.x));
+		f32 overlapY = std::max(0.0f, std::min(staticCollider.y + staticCollider.h, b.y + b.h) - std::max(staticCollider.y, b.y));
 
 		if (overlapX > 0 && overlapY > 0)
 		{
 			if (overlapY < overlapX)
 			{
 				// Y-axis resolution
-				if (b.y + b.h / 2 > a.y + a.h / 2)
+				if (b.y + b.h / 2 > staticCollider.y + staticCollider.h / 2)
 				{
 					// Coming from above
 					b.y += overlapY;
@@ -122,7 +122,7 @@ namespace GameEngine
 			else
 			{
 				// X-axis resolution
-				if (b.x + b.w / 2 < a.x + a.w / 2)
+				if (b.x + b.w / 2 < staticCollider.x + staticCollider.w / 2)
 				{
 					b.x -= overlapX;
 				}

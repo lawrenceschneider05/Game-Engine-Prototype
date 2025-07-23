@@ -41,15 +41,15 @@ namespace GameEngine
 			}
 			return tiles;
 		}
-
-	private:
-		f32 chunkX, chunkY;
-		array<TileType, CHUNK_WIDTH_TILES * CHUNK_HEIGHT_TILES> tiles;
-
 		inline u32 indexOf(u32 x, u32 y)
 		{
 			return y * CHUNK_HEIGHT_TILES + x;
 		}
+	private:
+		f32 chunkX, chunkY;
+		array<TileType, CHUNK_WIDTH_TILES * CHUNK_HEIGHT_TILES> tiles;
+
+		
 
 		inline Tile getTileCollider(f32 x, f32 y)
 		{

@@ -162,6 +162,7 @@
     <ClCompile Include="src\tiles\tilecollidergrid.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\physics\aabb.h" />
     <ClInclude Include="src\physics\collision.h" />
     <ClInclude Include="src\physics\physicsmanager.h" />
     <ClInclude Include="src\core\game.h" />

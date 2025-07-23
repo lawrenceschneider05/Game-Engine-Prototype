@@ -82,7 +82,7 @@ namespace GameEngine
 	}
 	void Renderer::drawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
 	{
-		if (rendererState->quadIndexCount > rendererState->MAX_INDICES)
+		if (rendererState->quadIndexCount + 6 > rendererState->MAX_INDICES)
 		{
 			//Logger::log(LOG_SUCCESS, "called");
 			flush();

@@ -21,10 +21,10 @@ namespace GameEngine
 		bool shouldJump = false;
 		bool isJumping = false;
 
-		const f32 MAX_HORIZONTAL_VELOCITY = 128;
+		const f32 MAX_HORIZONTAL_VELOCITY = 192;
 		const f32 MOVEMENT_ACCELERATION = 64;
 		const f32 MOVEMENT_DEACCELERATION = 64;
-		const f32 JUMP_INITIAL_VELOCITY = 512;
+		const f32 JUMP_INITIAL_VELOCITY = 256;
 		const f32 HORIZONTAL_INITIAL_VELOCITY = 32;
 	};
 }

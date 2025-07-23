@@ -24,9 +24,10 @@ namespace GameEngine
 		{
 			bool b = tilesUpdated;
 			tilesUpdated = false;
-			return b;
+			return b; 
 		}
 	private:
+		vector<Chunk> chunks{};
 		void renderTile(TileType, f32, f32);
 		Chunk testingChunk;
 

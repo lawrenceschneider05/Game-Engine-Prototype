@@ -101,25 +101,24 @@ void GameEngine::Application::update(f64 dt)
     {
         Renderer::setDebugMode(true);
     }
-    /*i32 camspeed = 500;
+    i32 camspeed = 500;
     
-    if (Input::isKeyPressed(GLFW_KEY_W))
-    {
-        Logger::log(LOG_SUCCESS, "ok");
-        camera.move({ 0, -camspeed * dt });
-    }
-    if (Input::isKeyPressed(GLFW_KEY_S))
+    if (Input::isKeyPressed(GLFW_KEY_UP))
     {
         camera.move({ 0, camspeed * dt });
     }
-    if (Input::isKeyPressed(GLFW_KEY_A))
+    if (Input::isKeyPressed(GLFW_KEY_DOWN))
+    {
+        camera.move({ 0, -camspeed * dt });
+    }
+    if (Input::isKeyPressed(GLFW_KEY_LEFT))
+    {
+        camera.move({ camspeed * dt, 0 });
+    }
+    if (Input::isKeyPressed(GLFW_KEY_RIGHT))
     {
         camera.move({ -camspeed * dt, 0 });
     }
-    if (Input::isKeyPressed(GLFW_KEY_D))
-    {
-        camera.move({ camspeed * dt, 0 });
-    }*/
 
     game->update(dt);
 }
@@ -127,8 +126,7 @@ void GameEngine::Application::update(f64 dt)
 void GameEngine::Application::render(f64 dt)
 {
     Renderer::beginScene(camera);
-
     game->render(dt);
-    Renderer::drawQuad({ 0,0 }, { 128,128 }, { 0,0,0,1.0f });
+    Renderer::drawQuad({ 0,0 }, { 4,4 }, { 0,0,0,1.0f });
     Renderer::endScene();
 }

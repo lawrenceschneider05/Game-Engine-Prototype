@@ -5,7 +5,9 @@
 namespace GameEngine
 {
 	Player::Player(f32 x, f32 y, f32 w, f32 h) : IActor(true, x, y, w, h)
+	
 	{
+
 	}
 
 	void Player::update()

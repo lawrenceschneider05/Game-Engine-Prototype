@@ -18,16 +18,17 @@ int main() {
 	Application app{};
 	app.init();
 	app.run();
+	glfwTerminate();
 	//int* a = new int(sizeof(int) * 10);
 	_CrtMemCheckpoint(&sNew); //take a snapshot 
 
-	glfwTerminate();
+	
 	if (_CrtMemDifference(&sDiff, &sOld, &sNew)) // if there is a difference
 	{
-		OutputDebugString(L"-----------_CrtMemDumpStatistics ---------");
+		/*OutputDebugString(L"-----------_CrtMemDumpStatistics ---------");
 		_CrtMemDumpStatistics(&sDiff);
 		OutputDebugString(L"-----------_CrtMemDumpAllObjectsSince ---------");
-		_CrtMemDumpAllObjectsSince(&sOld);
+		_CrtMemDumpAllObjectsSince(&sOld);*/
 		OutputDebugString(L"-----------_CrtDumpMemoryLeaks ---------");
 		_CrtDumpMemoryLeaks();
 	}

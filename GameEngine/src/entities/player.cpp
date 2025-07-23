@@ -29,9 +29,17 @@ namespace GameEngine
 		{
 			shouldMoveRight = false;
 		}
+		if (Input::isKeyPressed(GLFW_KEY_W))
+		{
+			shouldJump = true;
+		}
+		else
+		{
+			shouldJump = false;
+		}
 		moveLeft();
 		moveRight();
-		Logger::log(LOG_DEBUG, vx());
+		jump();
 	}
 
 	void Player::render()
@@ -44,6 +52,10 @@ namespace GameEngine
 		if (shouldMoveLeft)
 		{
 			applyHorizontalAcceleration(-MOVEMENT_ACCELERATION);
+			if (!isMovingLeft)
+			{
+				applyHorizontalVelocity(-HORIZONTAL_INITIAL_VELOCITY);
+			}
 			isMovingLeft = true;
 
 			if (vx() < -MAX_HORIZONTAL_VELOCITY)
@@ -78,6 +90,10 @@ namespace GameEngine
 		if (shouldMoveRight)
 		{
 			applyHorizontalAcceleration(MOVEMENT_ACCELERATION);
+			if (!isMovingRight)
+			{
+				applyHorizontalVelocity(HORIZONTAL_INITIAL_VELOCITY);
+			}
 			isMovingRight = true;
 
 			if (vx() > MAX_HORIZONTAL_VELOCITY)
@@ -103,6 +119,19 @@ namespace GameEngine
 				setHorizontalAcceleration(0);
 				isMovingRight = false;
 			}
+		}
+	}
+
+	void Player::jump()
+	{
+		if (shouldJump && grounded())
+		{
+			applyVerticalVelocity(JUMP_INITIAL_VELOCITY);
+			isJumping = true;
+		}
+		if (grounded())
+		{
+			isJumping = false;
 		}
 	}
 }

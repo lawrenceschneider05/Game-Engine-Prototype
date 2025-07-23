@@ -3,7 +3,7 @@
 #include <log/logger.h>
 namespace GameEngine
 {
-	Sandbox::Sandbox() : player(0,200,100,100)
+	Sandbox::Sandbox() : player(0,200,128,128)
 	{
 		pm.addBody(&player.getPhysicsBody());
 

@@ -7,6 +7,9 @@ using std::vector;
 
 namespace GameEngine
 {
+	constexpr f32 METER = 128;
+	constexpr f32 GRAVITY = METER * 30;
+	constexpr f32 TERMINAL_VELOCITY = METER * 100;
 	class PhysicsManager
 	{
 	public:
@@ -26,5 +29,9 @@ namespace GameEngine
 
 		void detectCollisions(f32 dt);
 		void resolveCollisions(f32 dt);
+
+		void resetGroundState();
+
+		void resolveStaticDynamicCollision(const PhysicsBody& staticBody, PhysicsBody& dynamicBody);
 	};
 }

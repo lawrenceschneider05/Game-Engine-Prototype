@@ -23,9 +23,10 @@ namespace GameEngine
 
 	void PhysicsManager::applyPhysics(f32 dt)
 	{
-		//applyGravity(dt);
+		applyGravity(dt);
 		integrate(dt);
 		detectCollisions(dt);
+		resetGroundState();
 		resolveCollisions(dt);
 	}
 
@@ -46,6 +47,7 @@ namespace GameEngine
 	{
 		for (PhysicsBody* pb : bodies)
 		{
+
 			if (!pb->gravity && pb->grounded) { continue; }
 			if (pb->motion.ay - (GRAVITY * dt) >= -TERMINAL_VELOCITY)
 			{
@@ -65,58 +67,74 @@ namespace GameEngine
 			{
 				continue;
 			}
-			else if (c.pb1.isStatic && !c.pb2.isStatic)
-			{
-				if (c.pb2.motion.vy != 0)
-				{
-					// find overlap
-					f32 overlap = std::max(0.0f, std::min(c.pb1.aabb.y + c.pb1.aabb.h, c.pb2.aabb.y + c.pb2.aabb.h) - std::max(c.pb1.aabb.y, c.pb2.aabb.y));
-
-					if (c.pb2.motion.vy > 0)
-					{
-						c.pb2.aabb.y -= overlap;
-					}
-					else
-					{
-						c.pb2.aabb.y += overlap;
-					}
-					c.pb2.motion.vy = 0;
-					c.pb2.motion.ay = 0;
-					c.pb2.grounded = true;
-				}
-				// case two moving right
-				// cost three moving up
-				// cost four moving down
-			}
 			else if (!c.pb1.isStatic && c.pb2.isStatic)
 			{
-				if (c.pb1.motion.vy != 0)
-				{
-					// find overlap
-					f32 overlap = std::max(0.0f, std::min(c.pb1.aabb.y + c.pb1.aabb.h, c.pb2.aabb.y + c.pb2.aabb.h) - std::max(c.pb1.aabb.y, c.pb2.aabb.y));
-					//f32 overlap = std::abs((c.pb1.aabb.y - (c.pb1.aabb.h / 2)) - (c.pb2.aabb.y - (c.pb2.aabb.h / 2)));
-
-					if (c.pb1.motion.vy > 0)
-					{
-						c.pb1.aabb.y -= overlap;
-					}
-					else
-					{
-						c.pb1.aabb.y += overlap;
-					}
-					c.pb1.motion.vy = 0;
-					c.pb1.motion.ay = 0;
-					c.pb1.grounded = true;
-
-				}
+				resolveStaticDynamicCollision(c.pb2, c.pb1);
 			}
-			// implement later
-			else if (!c.pb1.isStatic && !c.pb2.isStatic)
+			else if (c.pb1.isStatic && !c.pb2.isStatic)
 			{
-				// find direction
-				f32 relativeVelocity = c.pb1.motion.vx - c.pb2.motion.vx;
+				resolveStaticDynamicCollision(c.pb1, c.pb2);
 			}
 		}
 		collisions.clear();
 	}
+	
+
+	void PhysicsManager::resetGroundState()
+	{
+		for (PhysicsBody* pb : bodies)
+		{
+			if (!pb->isStatic)
+			{
+				pb->grounded = false;
+			}
+		}
+	}
+
+	void PhysicsManager::resolveStaticDynamicCollision(const PhysicsBody& staticBody, PhysicsBody& dynamicBody)
+	{
+		const AABB& a = staticBody.aabb;
+		AABB& b = dynamicBody.aabb;
+
+		f32 overlapX = std::max(0.0f, std::min(a.x + a.w, b.x + b.w) - std::max(a.x, b.x));
+		f32 overlapY = std::max(0.0f, std::min(a.y + a.h, b.y + b.h) - std::max(a.y, b.y));
+
+		if (overlapX > 0 && overlapY > 0)
+		{
+			if (overlapY < overlapX)
+			{
+				// Y-axis resolution
+				if (b.y + b.h / 2 > a.y + a.h / 2)
+				{
+					// Coming from above
+					b.y += overlapY;
+					dynamicBody.grounded = true;
+				}
+				else
+				{
+					// Coming from below
+					b.y -= overlapY;
+				}
+
+				dynamicBody.motion.vy = 0;
+				dynamicBody.motion.ay = 0;
+			}
+			else
+			{
+				// X-axis resolution
+				if (b.x + b.w / 2 < a.x + a.w / 2)
+				{
+					b.x -= overlapX;
+				}
+				else
+				{
+					b.x += overlapX;
+				}
+
+				dynamicBody.motion.vx = 0;
+				dynamicBody.motion.ax = 0;
+			}
+		}
+	}
+
 }

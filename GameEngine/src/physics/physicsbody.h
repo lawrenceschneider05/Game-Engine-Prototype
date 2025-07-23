@@ -2,9 +2,7 @@
 #include "types.h"
 namespace GameEngine
 {
-	constexpr f32 METER = 64;
-	constexpr f32 GRAVITY = METER * 9;
-	constexpr f32 TERMINAL_VELOCITY = METER * 100;
+	
 	struct AABB
 	{
 		f32 x, y, w, h;

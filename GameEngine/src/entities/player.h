@@ -12,13 +12,19 @@ namespace GameEngine
 	private:
 		void moveLeft();
 		void moveRight();
+		void jump();
 
 		bool shouldMoveLeft = false;
 		bool shouldMoveRight = false;
 		bool isMovingLeft = false;
 		bool isMovingRight = false;
-		const f32 MAX_HORIZONTAL_VELOCITY = 256;
-		const f32 MOVEMENT_ACCELERATION = 128;
+		bool shouldJump = false;
+		bool isJumping = false;
+
+		const f32 MAX_HORIZONTAL_VELOCITY = 128;
+		const f32 MOVEMENT_ACCELERATION = 64;
 		const f32 MOVEMENT_DEACCELERATION = 64;
+		const f32 JUMP_INITIAL_VELOCITY = 512;
+		const f32 HORIZONTAL_INITIAL_VELOCITY = 32;
 	};
 }

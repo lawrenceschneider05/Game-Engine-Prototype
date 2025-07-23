@@ -35,6 +35,8 @@ namespace GameEngine
 		void setHorizontalAcceleration(f32 v) { pb.motion.ax = v; }
 		void setVerticalAcceleration(f32 v) { pb.motion.ay = v; }
 
+		bool grounded() { return pb.grounded; }
+
 	private:
 		PhysicsBody pb;
 	};

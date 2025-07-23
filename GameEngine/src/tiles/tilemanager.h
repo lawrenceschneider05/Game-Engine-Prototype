@@ -15,11 +15,6 @@ namespace GameEngine
 
 		void render();
 
-		inline Chunk getChunk()
-		{
-			return testingChunk;
-		}
-
 		inline bool changeInTiles()
 		{
 			bool b = tilesUpdated;
@@ -27,12 +22,25 @@ namespace GameEngine
 			return b; 
 		}
 	private:
-		vector<Chunk> chunks{};
+		vector<Chunk*> chunks{};
+		void renderChunk(Chunk* c);
 		void renderTile(TileType, f32, f32);
-		Chunk testingChunk;
 
 		bool tilesUpdated = false;
 		
-		void addTile(TileType, f32, f32);
+		void addTile(Chunk* c, TileType, f32, f32);
+
+		void addChunk(f32 x, f32 y)
+		{
+			Chunk* c = new Chunk(x, y);
+			for (int y = 0; y < CHUNK_HEIGHT_TILES; y++)
+			{
+				for (int x = 0; x < CHUNK_WIDTH_TILES; x++)
+				{
+					addTile(c, TILE_GRASS, x, y);
+				}
+			}
+			chunks.push_back(c);
+		}
 	};
 }

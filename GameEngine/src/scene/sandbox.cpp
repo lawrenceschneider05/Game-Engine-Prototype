@@ -9,10 +9,10 @@ namespace GameEngine
 	{
 		pm.addBody(&player.getPhysicsBody());
 
-		for (const Tile& t : tm.getChunk().getTiles())
+		/*for (const Tile& t : tm.getChunk().getTiles())
 		{
 			pm.addBody(new PhysicsBody({ t.x, t.y, t.w, t.h }, false, true));
-		}
+		}*/
 		/*pm.addBody(new PhysicsBody({ -CHUNK_HEIGHT_PIXELS / 2, -CHUNK_HEIGHT_PIXELS / 2,
 			CHUNK_WIDTH_PIXELS, CHUNK_HEIGHT_PIXELS }, false, true));*/
 	}

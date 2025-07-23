@@ -29,9 +29,9 @@ namespace GameEngine
 		inline f32 getX() { return chunkX; }
 		inline f32 getY() { return chunkY; }
 
-		inline vector<TileCollider> getTiles()
+		inline vector<Tile> getTiles()
 		{
-			vector<TileCollider> tiles;
+			vector<Tile> tiles;
 			for (int y = 0; y < CHUNK_HEIGHT_TILES; y++)
 			{
 				for (int x = 0; x < CHUNK_WIDTH_TILES; x++)
@@ -51,7 +51,7 @@ namespace GameEngine
 			return y * CHUNK_HEIGHT_TILES + x;
 		}
 
-		inline TileCollider getTileCollider(f32 x, f32 y)
+		inline Tile getTileCollider(f32 x, f32 y)
 		{
 			f32 tileX = chunkX + (x * TILE_WIDTH);
 			f32 tileY = chunkY + (y * TILE_HEIGHT);

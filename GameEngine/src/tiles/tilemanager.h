@@ -15,12 +15,23 @@ namespace GameEngine
 
 		void render();
 
-		Chunk getChunk()
+		inline Chunk getChunk()
 		{
 			return testingChunk;
+		}
+
+		inline bool changeInTiles()
+		{
+			bool b = tilesUpdated;
+			tilesUpdated = false;
+			return b;
 		}
 	private:
 		void renderTile(TileType, f32, f32);
 		Chunk testingChunk;
+
+		bool tilesUpdated = false;
+		
+		void addTile(TileType, f32, f32);
 	};
 }

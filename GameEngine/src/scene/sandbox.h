@@ -1,0 +1,20 @@
+#pragma once
+#include "iscene.h"
+#include "entities/player.h"
+#include "tiles/tilemanager.h"
+#include "physics/physicsmanager.h"
+
+namespace GameEngine
+{
+	class Sandbox : public IScene
+	{
+	public:
+		Sandbox();
+		void update(f32 dt) override;
+		void render() override;
+	private:
+		Player player;
+		TileManager tm;
+		PhysicsManager pm;
+	};
+}

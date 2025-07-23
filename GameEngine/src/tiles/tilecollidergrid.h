@@ -11,6 +11,6 @@ namespace GameEngine
 	public:
 		TileColliderGrid();
 	private:
-		vector<TileCollider> tileColliders;
+		vector<Tile> tileColliders;
 	};
 }

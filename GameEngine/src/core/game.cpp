@@ -4,8 +4,7 @@ namespace GameEngine
 {
 	Game::Game()
 	{
-		EntityFactory factory = EntityFactory();
-		ecs = factory.init(tm);
+		
 	}
 	Game::~Game()
 	{
@@ -13,12 +12,10 @@ namespace GameEngine
 	}
 	void Game::update(f64 dt)
 	{
-		ecs->update(dt);
+		sandbox.update(dt);
 	}
 	void Game::render(f64 dt)
 	{
-		
-		tm.render();
-		ecs->render();
+		sandbox.render();
 	}
 }

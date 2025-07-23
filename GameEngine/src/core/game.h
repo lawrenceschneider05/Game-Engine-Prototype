@@ -1,8 +1,8 @@
 #include "types.h"
-#include "tiles/tilemanager.h"
-#include "ecs/entities/ecsmanager.h"
-#include "entityfactory.h"
+#include "scene/sandbox.h"
 #include <memory>
+#include <entities/player.h>
+#include <scene/sandbox.h>
 
 using std::unique_ptr;
 
@@ -17,8 +17,7 @@ namespace GameEngine
 		void update(f64 dt);
 		void render(f64 dt);
 	private:
-		unique_ptr<ECSManager> ecs;
-		TileManager tm;
-
+		
+		Sandbox sandbox;
 	};
 }

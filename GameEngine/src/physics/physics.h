@@ -20,8 +20,8 @@ namespace GameEngine
 			: x(x), y(y), w(w), h(h), vx(vx), vy(vy), ax(ax), ay(ay) {
 		}
 	};
-	constexpr f32 METER = 64;
-	constexpr f32 GRAVITY = METER * 5;
+	constexpr f32 METER = 16;
+	constexpr f32 GRAVITY = METER * 10;
 	constexpr f32 TERMINAL_VELOCITY = METER * 100;
 	
 

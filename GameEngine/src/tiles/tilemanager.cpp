@@ -13,7 +13,7 @@ namespace GameEngine
 		{
 			for (int x = 0; x < CHUNK_WIDTH_TILES; x++)
 			{
-				testingChunk.setTile(x, y, TILE_GRASS);
+				addTile(TILE_GRASS, x, y);
 			}
 		}
 	}
@@ -41,5 +41,10 @@ namespace GameEngine
 			Renderer::drawQuad({ x, y }, { TILE_WIDTH, TILE_HEIGHT }, { 0.0f, 1.0f, 0.0f, 1.0f });
 			return;
 		}
+	}
+	void TileManager::addTile(TileType t, f32 x, f32 y)
+	{
+		tilesUpdated = true;
+		testingChunk.setTile(x, y, TILE_GRASS);
 	}
 }

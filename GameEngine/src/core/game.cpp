@@ -1,8 +1,9 @@
 #include "game.h"
+#include "input/input.h"
 
 namespace GameEngine
 {
-	Game::Game()
+	Game::Game(Camera& _camera) : camera(_camera), sandbox(_camera)
 	{
 		
 	}
@@ -13,6 +14,7 @@ namespace GameEngine
 	void Game::update(f64 dt)
 	{
 		sandbox.update(dt);
+		
 	}
 	void Game::render(f64 dt)
 	{

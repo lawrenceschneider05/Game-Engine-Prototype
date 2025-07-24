@@ -13,7 +13,7 @@ GameEngine::Application::Application()
     window = Window("Game Engine", screenWidth, screenHeight);
     camera = Camera(0.0f, screenWidth, 0.0f, screenHeight);
 
-    game = new Game();
+    game = new Game(camera);
 }
 
 GameEngine::Application::~Application()
@@ -33,54 +33,61 @@ void GameEngine::Application::init()
 
 void GameEngine::Application::run()
 {
-    const i32 TARGET_FPS = 60;
-    const f64 TARGET_FRAME_TIME = 1.0 / 60.0;  // 60 FPS
-    auto lastRenderTime = std::chrono::high_resolution_clock::now();
-    auto lastUpdateTime = std::chrono::high_resolution_clock::now();
+    constexpr i32 TARGET_FPS = 120;
+    constexpr double TARGET_FRAME_TIME = 1.0 / TARGET_FPS;
+
+    using Clock = std::chrono::high_resolution_clock;
+    using Duration = std::chrono::duration<double>;
+
+    auto lastRenderTime = Clock::now();
+    auto lastUpdateTime = Clock::now();
+
     int renderFrameCount = 0;
     int updateFrameCount = 0;
-    auto lastRenderPrintTime = std::chrono::high_resolution_clock::now();
-    auto lastUpdatePrintTime = std::chrono::high_resolution_clock::now();
+
+    auto lastRenderPrintTime = Clock::now();
+    auto lastUpdatePrintTime = Clock::now();
 
     while (!window.shouldClose())
     {
         window.pollEvents();
 
         // Update loop (runs as fast as possible)
-        auto currentTime = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double> deltaTime = currentTime - lastUpdateTime;
+        auto currentTime = Clock::now();
+        Duration deltaTime = currentTime - lastUpdateTime;
         lastUpdateTime = currentTime;
 
-        // Call update with the delta time
         update(deltaTime.count());
         updateFrameCount++;
 
-        // Check time for rendering
-        auto elapsedTime = std::chrono::high_resolution_clock::now() - lastRenderTime;
-        if (elapsedTime.count() >= TARGET_FRAME_TIME) {
-            // Clear screen and render
-            window.clear(152 / 255.0, 245 / 255.0, 249 / 255.0, 1);
+        // Render loop (capped to target FPS)
+        Duration timeSinceLastRender = Clock::now() - lastRenderTime;
+        if (timeSinceLastRender.count() >= TARGET_FRAME_TIME) {
+            window.clear(152 / 255.0f, 245 / 255.0f, 249 / 255.0f, 1);
             render(deltaTime.count());
             window.swapBuffers();
-            lastRenderTime = std::chrono::high_resolution_clock::now();
+
+            lastRenderTime += std::chrono::duration_cast<Clock::duration>(Duration(TARGET_FRAME_TIME));
             renderFrameCount++;
         }
 
-        // Print FPS for render and update every second
-        auto currentPrintTime = std::chrono::high_resolution_clock::now();
-        if (std::chrono::duration<double>(currentPrintTime - lastRenderPrintTime).count() >= 1.0) {
+        // Print FPS every second
+        auto currentPrintTime = Clock::now();
+
+        if ((currentPrintTime - lastRenderPrintTime) >= std::chrono::seconds(1)) {
             std::cout << "Render FPS: " << renderFrameCount << std::endl;
             renderFrameCount = 0;
             lastRenderPrintTime = currentPrintTime;
         }
 
-        if (std::chrono::duration<double>(currentPrintTime - lastUpdatePrintTime).count() >= 1.0) {
+        if ((currentPrintTime - lastUpdatePrintTime) >= std::chrono::seconds(1)) {
             std::cout << "Update FPS: " << updateFrameCount << std::endl;
             updateFrameCount = 0;
             lastUpdatePrintTime = currentPrintTime;
         }
     }
 }
+
 
 void GameEngine::Application::update(f64 dt)
 {

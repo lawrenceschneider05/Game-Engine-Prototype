@@ -9,7 +9,7 @@ namespace GameEngine
 	class Sandbox : public IScene
 	{
 	public:
-		Sandbox();
+		Sandbox(Camera&);
 		void update(f32 dt) override;
 		void render() override;
 	private:

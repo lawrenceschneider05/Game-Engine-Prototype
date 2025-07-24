@@ -30,12 +30,12 @@ namespace GameEngine
 		UpdateProjection();
 	}
 
-	const glm::vec2 GameEngine::Camera::ScreenToWorld(const glm::vec2& screenCoords, const glm::vec2& windowSize)
+	const glm::vec2 GameEngine::Camera::ScreenToWorld(const glm::vec2& screenCoords)
 	{
 		// Convert to NDC (Normalized Device Coordinates)
 		// Flip Y-axis because GLFW's origin is top-left
-		float ndcX = (2.0f * screenCoords.x) / windowSize.x - 1.0f;
-		float ndcY = 1.0f - (2.0f * screenCoords.y) / windowSize.y;
+		float ndcX = (2.0f * screenCoords.x) / viewportSize.x - 1.0f;
+		float ndcY = 1.0f - (2.0f * screenCoords.y) / viewportSize.y;
 
 		// Create inverse of view-projection matrix
 		glm::mat4 inverseVP = glm::inverse(projectionMatrix * viewMatrix);

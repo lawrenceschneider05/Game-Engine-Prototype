@@ -2,10 +2,11 @@
 #include "physics/physicsbody.h"
 #include <log/logger.h>
 #include "rendering/renderer.h"
+#include "input/input.h"
 
 namespace GameEngine
 {
-	Sandbox::Sandbox() : player(0,128,16,32)
+	Sandbox::Sandbox(Camera& _camera) : player(0,128,16,32), IScene(_camera)
 	{
 		pm.addDynamicObject(&player.getPhysicsBody());
 		pm.addStaticColliders(cm.getColliders());
@@ -22,6 +23,14 @@ namespace GameEngine
 	{
 		player.update();
 		pm.applyPhysics(dt);
+
+		if (Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT))
+		{
+			f32 x = Input::getMouseX();
+			f32 y = Input::getMouseY();
+			auto cords = camera.ScreenToWorld({ x, y });
+			cm.click(cords.x, cords.y);
+		}
 	}
 
 	void Sandbox::render()

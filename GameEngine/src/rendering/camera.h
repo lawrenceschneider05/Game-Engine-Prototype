@@ -30,7 +30,7 @@ namespace GameEngine
 
         inline float GetZoom() const { return zoom; }
 
-        const glm::vec2 ScreenToWorld(const glm::vec2& screenCoords, const glm::vec2& windowSize);
+        const glm::vec2 ScreenToWorld(const glm::vec2& screenCoords);
 
         void SetViewportSize(float width, float height);
 

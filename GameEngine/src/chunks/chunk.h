@@ -48,6 +48,11 @@ namespace GameEngine
 		}
 
 		TileType* getTileData() { return tiles.data(); }
+
+		void destroyTile(u32 x, u32 y)
+		{
+			tiles[indexOf(x, y)] = TILE_EMPTY;
+		}
 	private:
 		ChunkCoordinate coordinates;
 		array<TileType, CHUNK_WIDTH_TILES * CHUNK_HEIGHT_TILES> tiles;

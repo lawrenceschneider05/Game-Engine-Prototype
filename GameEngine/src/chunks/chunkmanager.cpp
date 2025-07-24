@@ -1,6 +1,9 @@
 #include "chunkmanager.h"
 #include "rendering/renderer.h"
 #include "log/logger.h"
+#include "glm/glm.hpp"
+#include "input/input.h"
+
 #include <string>
 
 using std::to_string;
@@ -14,15 +17,21 @@ namespace GameEngine
 		addChunk({ 0, -1 });
 		addChunk({ 1, -1 });
 		addChunk({ 2, -1 });*/
+
 		loadChunks();
 	}
 	ChunkManager::~ChunkManager()
 	{
-		
+
 		for (Chunk* c : chunks)
 		{
 			delete c;
 		}
+	}
+
+	void ChunkManager::update()
+	{
+
 	}
 	void ChunkManager::render()
 	{
@@ -38,7 +47,7 @@ namespace GameEngine
 		case TILE_EMPTY:
 			return;
 		case TILE_GRASS:
-			Renderer::drawQuad({ x, y }, { TILE_WIDTH, TILE_HEIGHT }, { 0.0f, 1.0f, 0.0f, 1.0f });
+			Renderer::drawQuad({ x, y }, { TILE_WIDTH, TILE_HEIGHT }, { 0.0f, 0.0f, 0.0f, 1.0f });
 			return;
 		}
 	}
@@ -59,8 +68,6 @@ namespace GameEngine
 		c->setTile(x, y, TILE_GRASS);
 	}
 
-
-	// FIX
 	vector<AABB> ChunkManager::getColliders()
 	{
 		vector<AABB> colliders = {};

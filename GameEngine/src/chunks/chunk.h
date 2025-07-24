@@ -1,6 +1,8 @@
 #pragma once
 #include "tile.h"
 #include "types.h"
+#include "chunkcoordinate.h"
+
 #include <array>
 #include <vector>
 #include <memory>
@@ -20,41 +22,42 @@ namespace GameEngine
 	class Chunk
 	{
 	public:
-		Chunk(i32 x, i32 y);
+		Chunk(ChunkCoordinate c);
 
-		TileType getTile(u32 x, u32 y);
+		TileType getTile(i32 x, i32 y);
 
-		void setTile(u32 x, u32 y, TileType type);
+		void setTile(i32 x, i32 y, TileType type);
 
-		inline f32 getX() { return chunkX; }
-		inline f32 getY() { return chunkY; }
+		ChunkCoordinate getCoordinates() { return coordinates; }
 
 		inline vector<Tile> getTiles()
 		{
-			vector<Tile> tiles;
+			vector<Tile> t;
 			for (int y = 0; y < CHUNK_HEIGHT_TILES; y++)
 			{
 				for (int x = 0; x < CHUNK_WIDTH_TILES; x++)
 				{
-					tiles.push_back(getTileCollider(x, y));
+					t.push_back(getTileCollider(x, y));
 				}
 			}
-			return tiles;
+			return t;
 		}
-		inline u32 indexOf(u32 x, u32 y)
+		inline u32 indexOf(i32 x, i32 y)
 		{
-			return y * CHUNK_HEIGHT_TILES + x;
+			return y * CHUNK_WIDTH_TILES + x;
 		}
+
+		TileType* getTileData() { return tiles.data(); }
 	private:
-		f32 chunkX, chunkY;
+		ChunkCoordinate coordinates;
 		array<TileType, CHUNK_WIDTH_TILES * CHUNK_HEIGHT_TILES> tiles;
 
 		
 
-		inline Tile getTileCollider(f32 x, f32 y)
+		inline Tile getTileCollider(i32 x, i32 y)
 		{
-			f32 tileX = chunkX + (x * TILE_WIDTH);
-			f32 tileY = chunkY + (y * TILE_HEIGHT);
+			f32 tileX = coordinates.x + (x * TILE_WIDTH);
+			f32 tileY = coordinates.y + (y * TILE_HEIGHT);
 			return { getTile(x, y), tileX, tileY, TILE_WIDTH, TILE_HEIGHT };
 		}
 	};

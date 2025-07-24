@@ -14,7 +14,7 @@ namespace GameEngine
 		void render() override;
 	private:
 		Player player;
-		ChunkManager tm;
+		ChunkManager cm;
 		PhysicsManager pm;
 	};
 }

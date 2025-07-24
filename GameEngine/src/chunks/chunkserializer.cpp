@@ -3,6 +3,7 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <filesystem>
 
 using std::stringstream;
 using std::ofstream;
@@ -13,6 +14,7 @@ namespace GameEngine
 {
 	ChunkSerializer::ChunkSerializer()
 	{
+		std::filesystem::create_directories("game_data/world_data/chunk_data/");
 		loadCoordinates();
 	}
 
@@ -20,30 +22,51 @@ namespace GameEngine
 	{
 		saveCoordinates();
 	}
-	Chunk* ChunkSerializer::loadChunk(i32 x, i32 y)
+
+	Chunk* ChunkSerializer::loadChunk(ChunkCoordinate c)
 	{
 		stringstream fileName;
-		fileName << directory << x << "_" << x << ".bin";
+		fileName << directory << c.x << "_" << c.y << ".bin";
 
 		ifstream in(fileName.str(), ios::in | ios::binary);
+		if (!in) {
+			std::cerr << "Failed to open chunk file: " << fileName.str() << "\n";
+			return nullptr;
+		}
+		if (in.peek() == std::ifstream::traits_type::eof())
+		{
+			return nullptr;
+		}
 
+
+
+		Chunk* chunk = new Chunk(c);
 		i32 count = 16 * 16;
-
-		Chunk* chunk = new Chunk(x, y);
-		in.read(reinterpret_cast<char*>(chunk->getTiles().data()), count * sizeof(Tile));
+		in.read(reinterpret_cast<char*>(chunk->getTileData()), count * sizeof(TileType));
 		in.close();
 		return chunk;
 	}
 	void ChunkSerializer::saveChunk(Chunk* chunk)
 	{
-		coordinates.push_back({ chunk->getX(), chunk->getY() });
+		if (!chunkExists(chunk->getCoordinates()))
+		{
+			coordinates.push_back({ chunk->getCoordinates() });
+		}
+		
 
 		stringstream fileName;
-		fileName << directory << chunk->getX() << "_" << chunk->getY() << ".bin";
+		fileName << directory << chunk->getCoordinates().x << "_" << chunk->getCoordinates().y << ".bin";
 		ofstream out(fileName.str(), ios::out | ios::binary);
-		f32 count = chunk->getTiles().size();
-		out.write(reinterpret_cast<const char*>(chunk->getTiles().data()), count * sizeof(Tile));
+
+		if (!out) {
+			std::cerr << "Failed to open file for writing: " << fileName.str() << "\n";
+			return;
+		}
+		i32 count = 256;
+		out.write(reinterpret_cast<char*>(chunk->getTileData()), count * sizeof(TileType));
 		out.close();
+
+		Chunk* c1 = loadChunk(chunk->getCoordinates());
 	}
 
 	void ChunkSerializer::loadCoordinates()
@@ -52,14 +75,21 @@ namespace GameEngine
 		fileName << directory << coordinatesFileName;
 
 		ifstream in(fileName.str(), ios::in | ios::binary);
-
+		if (!in) {
+			std::cerr << "Failed to open chunk file: " << fileName.str() << "\n";
+			return;
+		}
+		if (in.peek() == std::ifstream::traits_type::eof())
+		{
+			return;
+		}
 		i32 count;
 		in.read(reinterpret_cast<char*>(&count), sizeof(count));
 
-		for (int i = 0; i < count; i++)
-		{
-			in.read(reinterpret_cast<char*>(coordinates.data()), count * sizeof(ChunkCoordinate));
-		}
+		coordinates.resize(count);
+
+		in.read(reinterpret_cast<char*>(coordinates.data()), count * sizeof(ChunkCoordinate));
+
 		in.close();
 	}
 
@@ -68,8 +98,15 @@ namespace GameEngine
 		stringstream fileName;
 		fileName << directory << coordinatesFileName;
 
-		ofstream out(fileName.str(), ios::out | ios::binary);
+		ofstream out(fileName.str(), ios::out | ios::binary | ios::app);
 
-		out.write(reinterpret_cast<const char*>(coordinates.data()), coordinates.size() * sizeof(ChunkCoordinate));
+		if (!out)
+		{
+			std::cerr << "Failed to open coordinate file: " << fileName.str() << "\n";
+			return;
+		}
+		i32 count = coordinates.size();
+		out.write(reinterpret_cast<char*>(&count), sizeof(count));
+		out.write(reinterpret_cast<char*>(coordinates.data()), coordinates.size() * sizeof(ChunkCoordinate));
 	}
 }

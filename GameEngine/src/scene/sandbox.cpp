@@ -8,7 +8,7 @@ namespace GameEngine
 	Sandbox::Sandbox() : player(0,128,16,32)
 	{
 		pm.addDynamicObject(&player.getPhysicsBody());
-		pm.addStaticColliders(tm.getColliders());
+		pm.addStaticColliders(cm.getColliders());
 		/*for (const Tile& t : tm.getChunk().getTiles())
 		{
 			pm.addBody(new PhysicsBody({ t.x, t.y, t.w, t.h }, false, true));
@@ -26,7 +26,7 @@ namespace GameEngine
 
 	void Sandbox::render()
 	{
-		tm.render();
+		cm.render();
 		player.render();
 	}	
 }

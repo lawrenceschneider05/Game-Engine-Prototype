@@ -77,6 +77,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)$(ProjectName)\vendor\include\;$(SolutionDir)$(ProjectName)\src\</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -94,6 +95,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)$(ProjectName)\vendor\include\;$(SolutionDir)$(ProjectName)\src\</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -111,6 +113,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)$(ProjectName)\vendor\include\;$(SolutionDir)$(ProjectName)\src\</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,6 +131,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)$(ProjectName)\vendor\include\;$(SolutionDir)$(ProjectName)\src\</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,8 +143,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\chunks\chunk.cpp" />
     <ClCompile Include="src\chunks\chunkserializer.cpp" />
     <ClCompile Include="glad\glad.c" />
+    <ClCompile Include="src\chunks\chunkmanager.cpp" />
     <ClCompile Include="src\physics\physicsmanager.cpp" />
     <ClCompile Include="src\core\game.cpp" />
     <ClCompile Include="src\entities\player.cpp" />
@@ -157,11 +163,14 @@
     <ClCompile Include="src\rendering\vertexarray.cpp" />
     <ClCompile Include="src\rendering\vertexbuffer.cpp" />
     <ClCompile Include="src\scene\sandbox.cpp" />
-    <ClCompile Include="src\chunks\chunkmanager.cpp" />
     <ClCompile Include="src\window\window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\chunks\chunk.h" />
+    <ClInclude Include="src\chunks\chunkcoordinate.h" />
     <ClInclude Include="src\chunks\chunkserializer.h" />
+    <ClInclude Include="src\chunks\tile.h" />
+    <ClInclude Include="src\chunks\chunkmanager.h" />
     <ClInclude Include="src\physics\aabb.h" />
     <ClInclude Include="src\physics\collision.h" />
     <ClInclude Include="src\physics\physicsmanager.h" />
@@ -185,7 +194,6 @@
     <ClInclude Include="src\rendering\vertexbuffer.h" />
     <ClInclude Include="src\scene\iscene.h" />
     <ClInclude Include="src\scene\sandbox.h" />
-    <ClInclude Include="src\chunks\chunkmanager.h" />
     <ClInclude Include="src\time\time.h" />
     <ClInclude Include="src\types.h" />
     <ClInclude Include="src\window\window.h" />

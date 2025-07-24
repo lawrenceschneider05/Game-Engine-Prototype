@@ -3,16 +3,18 @@
 #include "tile.h"
 #include "chunk.h"
 #include "physics/aabb.h"
+#include "chunkserializer.h"
+#include "chunkcoordinate.h"
 
 using std::vector;
 
 namespace GameEngine
 {
-	class TileManager
+	class ChunkManager
 	{
 	public:
-		TileManager();
-		~TileManager();
+		ChunkManager();
+		~ChunkManager();
 
 		void render();
 
@@ -24,25 +26,36 @@ namespace GameEngine
 		}
 		vector<AABB> getColliders();
 	private:
-		vector<Chunk*> chunks{};
+		void loadChunks();
+
 		void renderChunk(Chunk* c);
-		void renderTile(TileType, f32, f32);
+		void renderTile(TileType, f32 x, f32 y);
 
-		bool tilesUpdated = false;
-		
-		void addTile(Chunk* c, TileType, f32, f32);
+		void addTile(Chunk* c, TileType, i32 x, i32 y);
 
-		void addChunk(f32 x, f32 y)
+		void addChunk(ChunkCoordinate coords)
 		{
-			Chunk* c = new Chunk(x, y);
+			Chunk* c = new Chunk(coords);
+			
 			for (int y = 0; y < CHUNK_HEIGHT_TILES; y++)
 			{
 				for (int x = 0; x < CHUNK_WIDTH_TILES; x++)
 				{
 					addTile(c, TILE_GRASS, x, y);
+					
 				}
 			}
 			chunks.push_back(c);
+			serializer.saveChunk(c);
 		}
+	private:
+		ChunkSerializer serializer;
+
+		vector<Chunk*> chunks{};
+		
+
+		bool tilesUpdated = false;
+		
+		
 	};
 }

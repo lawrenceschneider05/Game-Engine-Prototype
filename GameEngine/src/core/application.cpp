@@ -33,7 +33,7 @@ void GameEngine::Application::init()
 
 void GameEngine::Application::run()
 {
-    constexpr i32 TARGET_FPS = 120;
+    constexpr i32 TARGET_FPS = 60;
     constexpr double TARGET_FRAME_TIME = 1.0 / TARGET_FPS;
 
     using Clock = std::chrono::high_resolution_clock;
@@ -81,7 +81,7 @@ void GameEngine::Application::run()
         }
 
         if ((currentPrintTime - lastUpdatePrintTime) >= std::chrono::seconds(1)) {
-            std::cout << "Update FPS: " << updateFrameCount << std::endl;
+            //std::cout << "Update FPS: " << updateFrameCount << std::endl;
             updateFrameCount = 0;
             lastUpdatePrintTime = currentPrintTime;
         }

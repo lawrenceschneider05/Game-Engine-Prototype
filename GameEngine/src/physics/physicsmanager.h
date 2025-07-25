@@ -22,10 +22,18 @@ namespace GameEngine
 			dynamicObjects.push_back(pb);
 		}
 
+		
+
+		inline void resetStaticColliders(const vector<AABB>& colliders)
+		{
+			staticObjects.clear();
+			addStaticColliders(colliders);
+		}
+	private:
 		inline void addStaticColliders(const vector<AABB>& colliders)
 		{
 			//staticObjects.insert(staticObjects.end(), colliders.begin(), colliders.end());
-		
+
 			for (const auto& collider : colliders)
 			{
 				staticObjects.push_back(collider);

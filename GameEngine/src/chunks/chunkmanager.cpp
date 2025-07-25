@@ -17,8 +17,12 @@ namespace GameEngine
 		addChunk({ 0, -1 });
 		addChunk({ 1, -1 });
 		addChunk({ 2, -1 });*/
+		//addChunk({ -3,0 });
+		//addChunk({ 2,0 });
+		//addChunk({ -3,-1 });
 
 		loadChunks();
+		updateColliders();
 	}
 	ChunkManager::~ChunkManager()
 	{
@@ -57,39 +61,45 @@ namespace GameEngine
 		{
 			i32 tileX = (i % 16);
 			i32 tileY = (i / 16);
-			f32 x = (c->getCoordinates().x * CHUNK_WIDTH_PIXELS) + tileX * TILE_WIDTH;
-			f32 y = (c->getCoordinates().y * CHUNK_HEIGHT_PIXELS) + tileY * TILE_HEIGHT;
+			f32 x = (c->getChunkCoordinates().x * CHUNK_WIDTH_PIXELS) + tileX * TILE_WIDTH;
+			f32 y = (c->getChunkCoordinates().y * CHUNK_HEIGHT_PIXELS) + tileY * TILE_HEIGHT;
 			renderTile(c->getTile(tileX, tileY), x, y);
 		}
 	}
 	void ChunkManager::addTile(Chunk* c, TileType t, i32 x, i32 y)
 	{
-		tilesUpdated = true;
+		chunksUpdated = true;
 		c->setTile(x, y, TILE_GRASS);
 	}
 
 	vector<AABB> ChunkManager::getColliders()
 	{
-		vector<AABB> colliders = {};
+		return colliders;
+	}
+
+	void ChunkManager::updateColliders()
+	{
+		colliders.clear();
 		for (Chunk* c : chunks)
 		{
-			for (int i = 0; i < c->getTiles().size(); i++)
+			const auto& tiles = c->getTiles();
+			for (int i = 0; i < tiles.size(); i++)
 			{
 				i32 x = i % 16;
 				i32 y = i / 16;
-				if (c->getTile(x, y) == TILE_EMPTY)
-				{
-					continue;
-				}
+
+				if (c->getTile(x, y) == TILE_EMPTY) { continue; }
+
 				AABB collider;
-				collider.x = (c->getCoordinates().x * CHUNK_WIDTH_PIXELS) + x * TILE_WIDTH;
-				collider.y = (c->getCoordinates().y * CHUNK_HEIGHT_PIXELS) + y * TILE_HEIGHT;
+				collider.x = (c->getChunkCoordinates().x * CHUNK_WIDTH_PIXELS) + x * TILE_WIDTH;
+				collider.y = (c->getChunkCoordinates().y * CHUNK_HEIGHT_PIXELS) + y * TILE_HEIGHT;
 				collider.w = TILE_WIDTH;
 				collider.h = TILE_HEIGHT;
 				colliders.push_back(collider);
 			}
 		}
-		return colliders;
+		chunksUpdated = true;
+		
 	}
 
 	void ChunkManager::loadChunks()
@@ -100,5 +110,7 @@ namespace GameEngine
 			if (!chunk) { continue; }
 			chunks.push_back(chunk);
 		}
+		updateColliders();
+		//Logger::log(LOG_DEBUG, chunks.size());
 	}
 }

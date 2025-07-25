@@ -28,8 +28,12 @@ namespace GameEngine
 
 		void setTile(i32 x, i32 y, TileType type);
 
-		ChunkCoordinate getCoordinates() { return coordinates; }
+		inline ChunkCoordinate getChunkCoordinates() { return coordinates; }
 
+		inline WorldCoordinate getWorldCoordinates()
+		{
+			return { coordinates.x * CHUNK_WIDTH_PIXELS, coordinates.y * CHUNK_HEIGHT_PIXELS };
+		}
 		inline vector<Tile> getTiles()
 		{
 			vector<Tile> t;
@@ -53,6 +57,11 @@ namespace GameEngine
 		{
 			tiles[indexOf(x, y)] = TILE_EMPTY;
 		}
+
+		void clearTiles()
+		{
+			tiles.fill(TILE_EMPTY);
+		}
 	private:
 		ChunkCoordinate coordinates;
 		array<TileType, CHUNK_WIDTH_TILES * CHUNK_HEIGHT_TILES> tiles;
@@ -61,8 +70,8 @@ namespace GameEngine
 
 		inline Tile getTileCollider(i32 x, i32 y)
 		{
-			f32 tileX = coordinates.x + (x * TILE_WIDTH);
-			f32 tileY = coordinates.y + (y * TILE_HEIGHT);
+			f32 tileX = coordinates.x * CHUNK_WIDTH_PIXELS + x * TILE_WIDTH;
+			f32 tileY = coordinates.y * CHUNK_HEIGHT_PIXELS + y * TILE_HEIGHT;
 			return { getTile(x, y), tileX, tileY, TILE_WIDTH, TILE_HEIGHT };
 		}
 	};

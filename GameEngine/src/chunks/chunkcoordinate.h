@@ -11,4 +11,13 @@ namespace GameEngine
 			return x == other.x && y == other.y;
 		}
 	};
+
+	struct WorldCoordinate
+	{
+		f32 x, y;
+
+		bool operator==(const WorldCoordinate& other) const {
+			return x == other.x && y == other.y;
+		}
+	};
 }

@@ -24,10 +24,11 @@ namespace GameEngine
 
 	void PhysicsManager::applyPhysics(f32 dt)
 	{
+		resetGroundState();
 		applyGravity(dt);
 		integrate(dt);
 		detectCollisions(dt);
-		resetGroundState();
+		
 		resolveCollisions(dt);
 	}
 
@@ -116,6 +117,8 @@ namespace GameEngine
 					b.y -= overlapY;
 				}
 
+				// only if moving towards collider?
+
 				dynamicBody.motion.vy = 0;
 				dynamicBody.motion.ay = 0;
 			}
@@ -131,8 +134,15 @@ namespace GameEngine
 					b.x += overlapX;
 				}
 
-				dynamicBody.motion.vx = 0;
-				dynamicBody.motion.ax = 0;
+				// only if moving towards collider?
+				if ((b.x + b.w / 2 < staticCollider.x + staticCollider.w / 2 && dynamicBody.motion.vx > 0) ||
+					(b.x + b.w / 2 > staticCollider.x + staticCollider.w / 2 && dynamicBody.motion.vx < 0))
+				{
+					dynamicBody.motion.vx = 0;
+					dynamicBody.motion.ax = 0;
+				}
+				/*dynamicBody.motion.vx = 0;
+				dynamicBody.motion.ax = 0;*/
 			}
 		}
 	}

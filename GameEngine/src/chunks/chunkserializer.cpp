@@ -44,18 +44,21 @@ namespace GameEngine
 		i32 count = 16 * 16;
 		in.read(reinterpret_cast<char*>(chunk->getTileData()), count * sizeof(TileType));
 		in.close();
+		
 		return chunk;
 	}
 	void ChunkSerializer::saveChunk(Chunk* chunk)
 	{
-		if (!chunkExists(chunk->getCoordinates()))
+		if (!chunk) { return; }
+		if (!chunkExists(chunk->getChunkCoordinates()))
 		{
-			coordinates.push_back({ chunk->getCoordinates() });
+			coordinates.push_back({ chunk->getChunkCoordinates() });
+			//std::cout << "Coordsinates size: " << coordinates.size() << "\n";
 		}
 		
 
 		stringstream fileName;
-		fileName << directory << chunk->getCoordinates().x << "_" << chunk->getCoordinates().y << ".bin";
+		fileName << directory << chunk->getChunkCoordinates().x << "_" << chunk->getChunkCoordinates().y << ".bin";
 		ofstream out(fileName.str(), ios::out | ios::binary);
 
 		if (!out) {
@@ -65,8 +68,6 @@ namespace GameEngine
 		i32 count = 256;
 		out.write(reinterpret_cast<char*>(chunk->getTileData()), count * sizeof(TileType));
 		out.close();
-
-		Chunk* c1 = loadChunk(chunk->getCoordinates());
 	}
 
 	void ChunkSerializer::loadCoordinates()
@@ -91,6 +92,7 @@ namespace GameEngine
 		in.read(reinterpret_cast<char*>(coordinates.data()), count * sizeof(ChunkCoordinate));
 
 		in.close();
+		std::cout << "Load coordinates coordinates size size: " << count << "\n";
 	}
 
 	void ChunkSerializer::saveCoordinates()
@@ -98,7 +100,7 @@ namespace GameEngine
 		stringstream fileName;
 		fileName << directory << coordinatesFileName;
 
-		ofstream out(fileName.str(), ios::out | ios::binary | ios::app);
+		ofstream out(fileName.str(), ios::out | ios::binary);
 
 		if (!out)
 		{
@@ -106,7 +108,8 @@ namespace GameEngine
 			return;
 		}
 		i32 count = coordinates.size();
+		std::cout << "Save Coordinates coordinates size: " << count << "\n";
 		out.write(reinterpret_cast<char*>(&count), sizeof(count));
-		out.write(reinterpret_cast<char*>(coordinates.data()), coordinates.size() * sizeof(ChunkCoordinate));
+		out.write(reinterpret_cast<char*>(coordinates.data()), count * sizeof(ChunkCoordinate));
 	}
 }

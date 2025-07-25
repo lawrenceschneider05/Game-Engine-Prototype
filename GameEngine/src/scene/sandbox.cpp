@@ -9,7 +9,7 @@ namespace GameEngine
 	Sandbox::Sandbox(Camera& _camera) : player(0,128,16,32), IScene(_camera)
 	{
 		pm.addDynamicObject(&player.getPhysicsBody());
-		pm.addStaticColliders(cm.getColliders());
+		pm.resetStaticColliders(cm.getColliders());
 		/*for (const Tile& t : tm.getChunk().getTiles())
 		{
 			pm.addBody(new PhysicsBody({ t.x, t.y, t.w, t.h }, false, true));
@@ -21,9 +21,6 @@ namespace GameEngine
 
 	void Sandbox::update(f32 dt)
 	{
-		player.update();
-		pm.applyPhysics(dt);
-
 		if (Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT))
 		{
 			f32 x = Input::getMouseX();
@@ -31,6 +28,14 @@ namespace GameEngine
 			auto cords = camera.ScreenToWorld({ x, y });
 			cm.click(cords.x, cords.y);
 		}
+		if (cm.areChunksUpdated())
+		{
+			pm.resetStaticColliders(cm.getColliders());
+		}
+		player.update();
+		pm.applyPhysics(dt);
+		
+		
 	}
 
 	void Sandbox::render()

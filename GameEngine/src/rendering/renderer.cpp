@@ -72,6 +72,7 @@ namespace GameEngine
 
 	void Renderer::beginScene(Camera camera)
 	{
+		//RenderCommand::clear();
 		rendererState->viewProjection = camera.GetViewProjectionMatrix();
 		rendererState->quadIndexCount = 0;
 		rendererState->bufferPointer = rendererState->bufferData;
@@ -106,6 +107,9 @@ namespace GameEngine
 	}
 	void Renderer::flush()
 	{
+		if (rendererState->quadIndexCount == 0)
+			return;  // nothing to draw
+
 		//u32 size = (u32*)rendererState->bufferPointer - (u32*)rendererState->bufferData;
 		u32 size = (u8*)rendererState->bufferPointer - (u8*)rendererState->bufferData;
 		rendererState->vertexBuffer->setData(rendererState->bufferData, size);

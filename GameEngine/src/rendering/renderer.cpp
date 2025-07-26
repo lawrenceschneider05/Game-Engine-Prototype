@@ -119,7 +119,7 @@ namespace GameEngine
 		rendererState->shader->bind();
 		rendererState->shader->setMat4("uniformViewProj", rendererState->viewProjection);
 
-		RenderCommand::drawIndexed(rendererState->vertexArray);
+		RenderCommand::drawIndexed(rendererState->vertexArray, rendererState->quadIndexCount);
 
 		rendererState->quadIndexCount = 0;
 

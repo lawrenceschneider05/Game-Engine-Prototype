@@ -7,6 +7,7 @@ namespace GameEngine
 	VertexArray::VertexArray()
 	{
 		glGenVertexArrays(1, &vao);
+		bind();
 	}
 	VertexArray::~VertexArray()
 	{

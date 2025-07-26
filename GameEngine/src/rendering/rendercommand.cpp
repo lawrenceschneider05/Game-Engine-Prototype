@@ -22,6 +22,12 @@ namespace GameEngine
 		u32 count = va->getIndexBuffer()->getCount();
 		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
 	}
+
+	void RenderCommand::drawIndexed(const shared_ptr<VertexArray>& va, u32 indexCount)
+	{
+		va->bind();
+		glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
+	}
 	void RenderCommand::setDebugMode(bool wireFrame)
 	{
 		if (wireFrame)

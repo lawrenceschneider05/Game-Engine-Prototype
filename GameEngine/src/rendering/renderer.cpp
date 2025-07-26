@@ -71,7 +71,7 @@ namespace GameEngine
 
 	void Renderer::beginScene(Camera camera)
 	{
-		//RenderCommand::clear();
+		RenderCommand::clear();
 		rendererState->viewProjection = camera.GetViewProjectionMatrix();
 		rendererState->quadIndexCount = 0;
 		rendererState->bufferPointer = rendererState->bufferData;

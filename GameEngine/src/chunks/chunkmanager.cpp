@@ -67,8 +67,6 @@ namespace GameEngine
 			f32 y = (chunkY) + tileY * TILE_HEIGHT;
 			renderTile(c->getTile(tileX, tileY), x, y);
 		}
-		Logger::log(LOG_DEBUG, chunkX);
-		Renderer::drawQuad({ chunkX, chunkY }, { CHUNK_WIDTH_PIXELS, CHUNK_HEIGHT_PIXELS }, { 1,0,0,1 });
 	}
 	void ChunkManager::addTile(Chunk* c, TileType t, i32 x, i32 y)
 	{

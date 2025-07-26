@@ -102,11 +102,11 @@ void GameEngine::Application::update(f64 dt)
 
     if (Input::isKeyPressed(GLFW_KEY_COMMA))
     {
-        Renderer::setDebugMode(true);
+        Renderer::setDebugMode(false);
     }
     else
     {
-        Renderer::setDebugMode(false);
+        Renderer::setDebugMode(true);
     }
     i32 camspeed = 500;
     

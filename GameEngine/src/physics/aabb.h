@@ -18,4 +18,10 @@ namespace GameEngine
 			a.y + a.h > b.y
 			);
 	}
+
+	inline bool AABBContainsPoint(const AABB& a, f32 x, f32 y)
+	{
+		return (x >= a.x) && (x <= a.x + a.w) &&
+			(y >= a.y) && (y <= a.y + a.h);
+	}
 }

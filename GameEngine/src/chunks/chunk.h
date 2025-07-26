@@ -2,6 +2,8 @@
 #include "tile.h"
 #include "types.h"
 #include "chunkcoordinate.h"
+#include "physics/aabb.h"
+#include "log/logger.h"
 
 #include <array>
 #include <vector>
@@ -53,20 +55,49 @@ namespace GameEngine
 
 		TileType* getTileData() { return tiles.data(); }
 
-		void destroyTile(u32 x, u32 y)
+		void destroyTileChunkPosition(u32 x, u32 y)
 		{
 			tiles[indexOf(x, y)] = TILE_EMPTY;
 		}
+		
+		void destroyTileWorldPosition(f32 x, f32 y)
+		{
+			
+			if (AABBContainsPoint(chunkBounds(), x, y))
+			{
+				
+				f32 newX = x - getWorldCoordinates().x;
+				f32 newY = y - getWorldCoordinates().y;
+
+				i32 chunkX = newX / CHUNK_WIDTH_TILES;
+				i32 chunkY = newY / CHUNK_HEIGHT_TILES;
+				Logger::log(LOG_DEBUG, chunkX);
+				destroyTileChunkPosition(chunkX, chunkY);
+			}
+		}
+		
 
 		void clearTiles()
 		{
 			tiles.fill(TILE_EMPTY);
 		}
+
+		
 	private:
 		ChunkCoordinate coordinates;
 		array<TileType, CHUNK_WIDTH_TILES * CHUNK_HEIGHT_TILES> tiles;
 
-		
+		AABB chunkBounds()
+		{
+			AABB a;
+			ChunkCoordinate c = getChunkCoordinates();
+			a.x = c.x * CHUNK_WIDTH_PIXELS;
+			a.y = c.y * CHUNK_WIDTH_PIXELS;
+			a.w = CHUNK_WIDTH_PIXELS;
+			a.h = CHUNK_HEIGHT_PIXELS;
+
+			return a;
+		}
 
 		inline Tile getTileCollider(i32 x, i32 y)
 		{

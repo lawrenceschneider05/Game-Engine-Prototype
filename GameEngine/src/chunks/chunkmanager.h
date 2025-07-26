@@ -34,7 +34,8 @@ namespace GameEngine
 		{
 			Chunk* c = getChunkAt(x, y);
 			if (!c) { return; }
-			unloadChunk(c);
+			c->destroyTileWorldPosition(x, y);
+			updateColliders();
 		}
 	private:
 		void unloadChunk(Chunk* c)

@@ -134,6 +134,6 @@ void GameEngine::Application::render(f64 dt)
 {
     Renderer::beginScene(camera);
     game->render(dt);
-    Renderer::drawQuad({ 0,0 }, { 4,4 }, { 0,0,0,1.0f });
+    //Renderer::drawQuad({ 0,0 }, { 4,4 }, { 0,0,0,1.0f });
     Renderer::endScene();
 }

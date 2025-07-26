@@ -17,10 +17,10 @@ int main() {
 	_CrtMemState sDiff;
 	_CrtMemCheckpoint(&sOld); //take a snapshot
 
-	Application app{};
-	app.init();
-	app.run();
-	
+	Application* app = new Application();
+	app->init();
+	app->run();
+	delete app;
 
 	glfwTerminate();
 	//int* a = new int(sizeof(int) * 10);

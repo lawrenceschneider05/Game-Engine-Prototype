@@ -39,15 +39,15 @@ namespace GameEngine
 	private:
 		void unloadChunk(Chunk* c)
 		{
-			c->clearTiles();
-			chunks.erase(std::remove(chunks.begin(), chunks.end(), c), chunks.end());
+			//c->clearTiles();
+			
 			serializer.saveChunk(c);
-
+			chunks.erase(std::remove(chunks.begin(), chunks.end(), c), chunks.end());
+			
 			delete c;
 			c = nullptr;
 			updateColliders();
 			chunksUpdated = true;
-			
 		}
 		void loadChunks();
 

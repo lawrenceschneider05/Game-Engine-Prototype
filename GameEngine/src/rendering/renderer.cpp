@@ -67,7 +67,6 @@ namespace GameEngine
 	{
 		delete[] rendererState->bufferData;
 		delete rendererState;
-		
 	}
 
 	void Renderer::beginScene(Camera camera)
@@ -85,7 +84,6 @@ namespace GameEngine
 	{
 		if (rendererState->quadIndexCount + 6 > rendererState->MAX_INDICES)
 		{
-			//Logger::log(LOG_SUCCESS, "called");
 			flush();
 		}
 
@@ -108,10 +106,14 @@ namespace GameEngine
 	void Renderer::flush()
 	{
 		if (rendererState->quadIndexCount == 0)
-			return;  // nothing to draw
+		{
+			rendererState->vertexBuffer->setData(nullptr, 0);
+			return;
+		}
 
 		//u32 size = (u32*)rendererState->bufferPointer - (u32*)rendererState->bufferData;
 		u32 size = (u8*)rendererState->bufferPointer - (u8*)rendererState->bufferData;
+		//u32 fullSize = rendererState->MAX_VERTICES * sizeof(QuadVertex);
 		rendererState->vertexBuffer->setData(rendererState->bufferData, size);
 
 		rendererState->shader->bind();

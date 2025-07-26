@@ -14,7 +14,8 @@ namespace GameEngine
 		Shader() {}
 		~Shader()
 		{
-			glDeleteShader(program);
+			if (program != 0)
+				glDeleteProgram(program);
 		}
 		Shader(string vertPath, string fragPath);
 		void bind();

@@ -13,7 +13,7 @@ namespace GameEngine
 	class PhysicsManager
 	{
 	public:
-		
+		~PhysicsManager();
 		void applyPhysics(f32 dt);
 
 

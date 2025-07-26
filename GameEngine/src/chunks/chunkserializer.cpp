@@ -44,7 +44,7 @@ namespace GameEngine
 		i32 count = 16 * 16;
 		in.read(reinterpret_cast<char*>(chunk->getTileData()), count * sizeof(TileType));
 		in.close();
-		
+		//std::cout << "tile size: " << chunk->getTiles()[0].type << "\n";
 		return chunk;
 	}
 	void ChunkSerializer::saveChunk(Chunk* chunk)

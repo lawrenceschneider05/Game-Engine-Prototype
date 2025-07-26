@@ -16,10 +16,10 @@ namespace GameEngine
 		addChunk({ -1, -1 });
 		addChunk({ 0, -1 });
 		addChunk({ 1, -1 });
-		addChunk({ 2, -1 });*/
-		//addChunk({ -3,0 });
-		//addChunk({ 2,0 });
-		//addChunk({ -3,-1 });
+		addChunk({ 2, -1 });
+		addChunk({ -3,0 });
+		addChunk({ 2,0 });
+		addChunk({ -3,-1 });*/
 
 		loadChunks();
 		updateColliders();
@@ -35,7 +35,7 @@ namespace GameEngine
 
 	void ChunkManager::update()
 	{
-
+		
 	}
 	void ChunkManager::render()
 	{
@@ -57,14 +57,18 @@ namespace GameEngine
 	}
 	void ChunkManager::renderChunk(Chunk* c)
 	{
+		f32 chunkX = c->getWorldCoordinates().x;
+		f32 chunkY = c->getWorldCoordinates().y;
 		for (int i = 0; i < 256; i++)
 		{
 			i32 tileX = (i % 16);
 			i32 tileY = (i / 16);
-			f32 x = (c->getChunkCoordinates().x * CHUNK_WIDTH_PIXELS) + tileX * TILE_WIDTH;
-			f32 y = (c->getChunkCoordinates().y * CHUNK_HEIGHT_PIXELS) + tileY * TILE_HEIGHT;
+			f32 x = (chunkX) + tileX * TILE_WIDTH;
+			f32 y = (chunkY) + tileY * TILE_HEIGHT;
 			renderTile(c->getTile(tileX, tileY), x, y);
 		}
+		Logger::log(LOG_DEBUG, chunkX);
+		Renderer::drawQuad({ chunkX, chunkY }, { CHUNK_WIDTH_PIXELS, CHUNK_HEIGHT_PIXELS }, { 1,0,0,1 });
 	}
 	void ChunkManager::addTile(Chunk* c, TileType t, i32 x, i32 y)
 	{

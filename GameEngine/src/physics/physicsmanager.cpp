@@ -4,6 +4,11 @@
 
 namespace GameEngine
 {
+
+	PhysicsManager::~PhysicsManager()
+	{
+
+	}
 	void PhysicsManager::detectCollisions(f32 dt)
 	{
 		i16 numCollisions = 0;

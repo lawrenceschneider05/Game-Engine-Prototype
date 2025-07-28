@@ -29,6 +29,7 @@ namespace GameEngine
 
 		for (Chunk* c : chunks)
 		{
+			serializer.saveChunk(c);
 			delete c;
 		}
 	}

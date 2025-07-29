@@ -5,7 +5,7 @@
 
 #include "chunk.h"
 #include "types.h"
-#include "chunkcoordinate.h"
+#include "coordinate.h"
 
 
 using std::vector;
@@ -21,7 +21,7 @@ namespace GameEngine
 		ChunkSerializer();
 		~ChunkSerializer();
 		Chunk* loadChunk(ChunkCoordinate c);
-		void saveChunk(Chunk* chunk);
+		void unloadChunk(Chunk* chunk);
 		vector<ChunkCoordinate> getCoordinates() { return coordinates; }
 	private:
 		void loadCoordinates();

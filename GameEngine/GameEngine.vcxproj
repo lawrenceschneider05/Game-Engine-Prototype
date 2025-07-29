@@ -167,10 +167,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\chunks\chunk.h" />
-    <ClInclude Include="src\chunks\chunkcoordinate.h" />
+    <ClInclude Include="src\chunks\coordinate.h" />
     <ClInclude Include="src\chunks\chunkserializer.h" />
+    <ClInclude Include="src\chunks\ichunkmanager.h" />
     <ClInclude Include="src\chunks\tile.h" />
     <ClInclude Include="src\chunks\chunkmanager.h" />
+    <ClInclude Include="src\events\eventbus.h" />
+    <ClInclude Include="src\events\ievent.h" />
+    <ClInclude Include="src\events\mouseclickedevent.h" />
     <ClInclude Include="src\physics\aabb.h" />
     <ClInclude Include="src\physics\collision.h" />
     <ClInclude Include="src\physics\physicsmanager.h" />
@@ -193,6 +197,7 @@
     <ClInclude Include="src\rendering\vertexarray.h" />
     <ClInclude Include="src\rendering\vertexbuffer.h" />
     <ClInclude Include="src\scene\iscene.h" />
+    <ClInclude Include="src\scene\iworld.h" />
     <ClInclude Include="src\scene\sandbox.h" />
     <ClInclude Include="src\time\time.h" />
     <ClInclude Include="src\types.h" />

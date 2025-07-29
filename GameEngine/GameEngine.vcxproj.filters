@@ -176,7 +176,22 @@
     <ClInclude Include="src\chunks\chunkmanager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\chunks\chunkcoordinate.h">
+    <ClInclude Include="src\chunks\coordinate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\events\eventbus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\events\ievent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\events\mouseclickedevent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scene\iworld.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chunks\ichunkmanager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -47,7 +47,7 @@ namespace GameEngine
 		//std::cout << "tile size: " << chunk->getTiles()[0].type << "\n";
 		return chunk;
 	}
-	void ChunkSerializer::saveChunk(Chunk* chunk)
+	void ChunkSerializer::unloadChunk(Chunk* chunk)
 	{
 		if (!chunk) { return; }
 		if (!chunkExists(chunk->getChunkCoordinates()))

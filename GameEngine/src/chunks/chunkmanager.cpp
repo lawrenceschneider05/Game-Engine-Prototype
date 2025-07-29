@@ -5,6 +5,7 @@
 #include "input/input.h"
 
 #include <string>
+#include <cmath>
 
 using std::to_string;
 
@@ -12,108 +13,107 @@ namespace GameEngine
 {
 	ChunkManager::ChunkManager()
 	{
-		/*addChunk({ -2, -1 });
-		addChunk({ -1, -1 });
-		addChunk({ 0, -1 });
-		addChunk({ 1, -1 });
-		addChunk({ 2, -1 });
-		addChunk({ -3,0 });
-		addChunk({ 2,0 });
-		addChunk({ -3,-1 });*/
-
-		loadChunks();
-		updateColliders();
+		for (auto& it : serializer.getCoordinates())
+		{
+			chunks.insert({ it, serializer.loadChunk(it) });
+		}
 	}
+
 	ChunkManager::~ChunkManager()
 	{
-
-		for (Chunk* c : chunks)
+		for (auto& it : chunks)
 		{
-			serializer.saveChunk(c);
-			delete c;
+			serializer.unloadChunk(it.second);
+			delete it.second;
 		}
 	}
 
-	void ChunkManager::update()
+	bool ChunkManager::addBlock(Coordinate position)
 	{
-		
+		getChunkAt(position)->addBlock(position);
+		dirtyChunks.insert(worldPosToChunkPos(position));
+		return false;
 	}
-	void ChunkManager::render()
+
+	bool ChunkManager::removeBlock(Coordinate position)
 	{
-		for (Chunk* c : chunks)
-		{
-			renderChunk(c);
-		}
+		getChunkAt(position)->removeBlock(position);
+		dirtyChunks.insert(worldPosToChunkPos(position));
+		return false;
 	}
-	void ChunkManager::renderTile(TileType t, f32 x, f32 y)
+
+	bool ChunkManager::isBlockAt(Coordinate position)
 	{
-		switch (t)
-		{
-		case TILE_EMPTY:
-			return;
-		case TILE_GRASS:
-			Renderer::drawQuad({ x, y }, { TILE_WIDTH, TILE_HEIGHT }, { 0.0f, 0.0f, 0.0f, 1.0f });
-			return;
-		}
-	}
-	void ChunkManager::renderChunk(Chunk* c)
-	{
-		f32 chunkX = c->getWorldCoordinates().x;
-		f32 chunkY = c->getWorldCoordinates().y;
-		for (int i = 0; i < 256; i++)
-		{
-			i32 tileX = (i % 16);
-			i32 tileY = (i / 16);
-			f32 x = (chunkX) + tileX * TILE_WIDTH;
-			f32 y = (chunkY) + tileY * TILE_HEIGHT;
-			renderTile(c->getTile(tileX, tileY), x, y);
-		}
-	}
-	void ChunkManager::addTile(Chunk* c, TileType t, i32 x, i32 y)
-	{
-		chunksUpdated = true;
-		c->setTile(x, y, TILE_GRASS);
+		return getChunkAt(position)->isBlockAt(position);
+		return false;
 	}
 
 	vector<AABB> ChunkManager::getColliders()
 	{
-		return colliders;
+		if (!dirtyChunks.empty()) {
+			updateDirtyColliders();
+		}
+		if (collidersDirty)
+		{
+			cleanColliders.clear();
+			for (auto& a : colliders)
+			{
+				cleanColliders.insert(cleanColliders.end(), a.second.begin(), a.second.end());
+			}
+			collidersDirty = false;
+		}
+		return cleanColliders;
 	}
 
-	void ChunkManager::updateColliders()
+	ChunkCoordinate ChunkManager::worldPosToChunkPos(Coordinate worldPos)
 	{
-		colliders.clear();
-		for (Chunk* c : chunks)
+		return {
+			(i32)(std::floor(worldPos.x / CHUNK_WIDTH_PIXELS)),
+			(i32)(std::floor(worldPos.y / CHUNK_HEIGHT_PIXELS))
+		};
+	}
+
+	void ChunkManager::updateDirtyColliders()
+	{
+		for (const auto& chunkCoord : dirtyChunks)
 		{
-			const auto& tiles = c->getTiles();
-			for (int i = 0; i < tiles.size(); i++)
+			auto it = chunks.find(chunkCoord);
+			if (it != chunks.end() && it->second)
 			{
-				i32 x = i % 16;
-				i32 y = i / 16;
-
-				if (c->getTile(x, y) == TILE_EMPTY) { continue; }
-
-				AABB collider;
-				collider.x = (c->getChunkCoordinates().x * CHUNK_WIDTH_PIXELS) + x * TILE_WIDTH;
-				collider.y = (c->getChunkCoordinates().y * CHUNK_HEIGHT_PIXELS) + y * TILE_HEIGHT;
-				collider.w = TILE_WIDTH;
-				collider.h = TILE_HEIGHT;
-				colliders.push_back(collider);
+				colliders[chunkCoord] = it->second->getColliders();
+				collidersDirty = true;
 			}
 		}
-		chunksUpdated = true;
-		
+		dirtyChunks.clear();
 	}
 
-	void ChunkManager::loadChunks()
+	vector<AABB>& ChunkManager::getColliderAt(Coordinate position)
 	{
-		for (const ChunkCoordinate& c : serializer.getCoordinates())
-		{
-			Chunk* chunk = serializer.loadChunk(c);
-			if (!chunk) { continue; }
-			chunks.push_back(chunk);
+		return colliders[worldPosToChunkPos(position)];
+	}
+
+	Chunk* ChunkManager::getChunkAt(Coordinate position)
+	{
+		ChunkCoordinate key = worldPosToChunkPos(position);
+		auto it = chunks.find(key);
+		if (it != chunks.end()) {
+			return it->second;
 		}
-		updateColliders();
-		//Logger::log(LOG_DEBUG, chunks.size());
+		return nullptr;
+
+
+	}
+
+	void ChunkManager::loadChunk(Coordinate position)
+	{
+		ChunkCoordinate cord = worldPosToChunkPos(position);
+		Chunk* c = serializer.loadChunk(cord);
+
+		chunks.insert({ cord, c });
+	}
+
+	void ChunkManager::unloadChunk(Coordinate position)
+	{
+		serializer.unloadChunk(getChunkAt(position));
 	}
 }

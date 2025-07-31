@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <log/logger.h>
 
 using std::remove;
 using std::cout;

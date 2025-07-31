@@ -43,7 +43,7 @@ namespace GameEngine
 		void renderTile(TileType, Coordinate c);
 		void renderChunk(Chunk* c);
 
-		void addChunk(ChunkCoordinate coord);
+		void addChunk(Chunk* c);
 	private:
 	private:
 		bool collidersDirty = false;
@@ -52,6 +52,6 @@ namespace GameEngine
 		unordered_set<ChunkCoordinate> dirtyChunks{};
 		vector<AABB> cleanColliders;
 
-		//ChunkSerializer serializer;
+		ChunkSerializer serializer;
 	};
 }

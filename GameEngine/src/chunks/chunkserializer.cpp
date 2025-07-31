@@ -43,7 +43,7 @@ namespace GameEngine
 		Chunk* chunk = new Chunk(cord, c);
 		in.read(reinterpret_cast<char*>(chunk->getTileData().data()), chunk->getTileData().size() * sizeof(TileType));
 		in.close();
-		//chunk->generateColliders();
+		chunk->generateColliders();
 		return chunk;
 	}
 	void ChunkSerializer::unloadChunk(Chunk* chunk)
@@ -76,10 +76,7 @@ namespace GameEngine
 		fileName << directory << coordinatesFileName;
 
 		ifstream in(fileName.str(), ios::in | ios::binary);
-		if (!in) {
-			std::cerr << "Failed to open chunk file: " << fileName.str() << "\n";
-			return;
-		}
+
 		if (in.peek() == std::ifstream::traits_type::eof())
 		{
 			return;
@@ -93,6 +90,8 @@ namespace GameEngine
 
 		in.close();
 		std::cout << "Load coordinates coordinates size size: " << count << "\n";
+
+		
 	}
 
 	void ChunkSerializer::saveCoordinates()

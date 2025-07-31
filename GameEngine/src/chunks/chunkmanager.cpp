@@ -13,37 +13,30 @@ using std::cout;
 
 namespace GameEngine
 {
-	void ChunkManager::addChunk(ChunkCoordinate coord)
+	void ChunkManager::addChunk(Chunk* c)
 	{
-		Chunk* chunk = new Chunk(chunkPosToWorldPos(coord), coord);
-
-		for (auto i = 0; i < 256; i++)
-		{
-			chunk->setBlock(i);
-		}
-
-		chunks.insert({ coord, chunk });
-		colliders.insert({ coord, chunk->getColliders() });
-		dirtyChunks.insert(coord);
+		chunks.insert({ c->getChunkCoordinates(), c });
+		colliders.insert({ c->getChunkCoordinates(), c->getColliders()});
+		dirtyChunks.insert(c->getChunkCoordinates());
 		collidersDirty = true;
-		
 	}
 
 	ChunkManager::ChunkManager()
 	{
-		/*for (auto& it : serializer.getCoordinates())
+		for (auto& it : serializer.getCoordinates())
 		{
-			chunks.insert({ it, serializer.loadChunk(it) });
-		}*/
+			addChunk(serializer.loadChunk(it));
+			
+		}
 		//Coordinate c = chunkPosToWorldPos({ 0,-1 });
-		addChunk({ 0,-1 });
+		/*addChunk({ 0,-1 });
 		addChunk({ 1,-1 });
 		addChunk({ 2,-1 });
 		addChunk({ 2,0 });
 		addChunk({ -1,-1 });
 		addChunk({ -2,-1 });
 		addChunk({ -3,-1 });
-		addChunk({ -3,0 });
+		addChunk({ -3,0 });*/
 	}
 
 	ChunkManager::~ChunkManager()

@@ -43,8 +43,10 @@ namespace GameEngine
 		void renderTile(TileType, Coordinate c);
 		void renderChunk(Chunk* c);
 
-		void addChunk(Chunk* c);
+		
 	private:
+		void addChunk(Chunk* c);
+		void newChunk(ChunkCoordinate coords);
 	private:
 		bool collidersDirty = false;
 		unordered_map<ChunkCoordinate, Chunk*> chunks{};

@@ -15,12 +15,26 @@ namespace GameEngine
 {
 	void ChunkManager::addChunk(Chunk* c)
 	{
-		chunks.insert({ c->getChunkCoordinates(), c });
+		if (chunks.find(c->getChunkCoordinates()) != chunks.end())
+		{
+			delete chunks[c->getChunkCoordinates()];
+		}
+		chunks[c->getChunkCoordinates()] = {c};
 		colliders.insert({ c->getChunkCoordinates(), c->getColliders()});
 		dirtyChunks.insert(c->getChunkCoordinates());
 		collidersDirty = true;
 	}
 
+
+	void ChunkManager::newChunk(ChunkCoordinate coord)
+	{
+		Chunk* c = new Chunk(chunkPosToWorldPos(coord), coord);
+		for (auto i = 0; i < c->getTileData().size(); i++)
+		{
+			//c->setBlock(i);
+		}
+		addChunk(c);
+	}
 	ChunkManager::ChunkManager()
 	{
 		for (auto& it : serializer.getCoordinates())
@@ -37,13 +51,19 @@ namespace GameEngine
 		addChunk({ -2,-1 });
 		addChunk({ -3,-1 });
 		addChunk({ -3,0 });*/
+		
+		/*newChunk({0,0});
+		newChunk({ 1,0 });
+		newChunk({ -2,0 });
+		newChunk({ -1,0 });*/
+
 	}
 
 	ChunkManager::~ChunkManager()
 	{
 		for (auto& it : chunks)
 		{
-			//serializer.unloadChunk(it.second);
+			serializer.unloadChunk(it.second);
 			delete it.second;
 		}
 	}

@@ -15,7 +15,15 @@ namespace GameEngine
 		if (Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT))
 		{
 			Coordinate c = world->camera->ScreenToWorld(Input::getMousePosition());
-			world->chunkManager->removeBlock(c);
+
+			if (world->chunkManager->isBlockAt(c))
+			{
+				world->chunkManager->removeBlock(c);
+			}
+			else
+			{
+				world->chunkManager->addBlock(c);
+			}
 		}
 		if (Input::isKeyPressed(GLFW_KEY_A))
 		{

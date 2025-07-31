@@ -26,13 +26,6 @@ namespace GameEngine
 
 	void Sandbox::update(f32 dt)
 	{
-		if (Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT))
-		{
-			f32 x = Input::getMouseX();
-			f32 y = Input::getMouseY();
-			auto cords = camera->ScreenToWorld({ x, y });
-			//cm.click(cords.x, cords.y);
-		}
 		/*if (cm.areChunksUpdated())
 		{
 			pm.resetStaticColliders(cm.getColliders());

@@ -46,7 +46,7 @@ namespace GameEngine
 		
 	private:
 		void addChunk(Chunk* c);
-		void newChunk(ChunkCoordinate coords);
+		void newChunk(ChunkCoordinate coords, bool filled);
 	private:
 		bool collidersDirty = false;
 		unordered_map<ChunkCoordinate, Chunk*> chunks{};

@@ -26,13 +26,17 @@ namespace GameEngine
 	}
 
 
-	void ChunkManager::newChunk(ChunkCoordinate coord)
+	void ChunkManager::newChunk(ChunkCoordinate coord, bool filled)
 	{
 		Chunk* c = new Chunk(chunkPosToWorldPos(coord), coord);
-		for (auto i = 0; i < c->getTileData().size(); i++)
+		if (filled)
 		{
-			//c->setBlock(i);
+			for (auto i = 0; i < c->getTileData().size(); i++)
+			{
+				c->setBlock(i);
+			}
 		}
+		
 		addChunk(c);
 	}
 	ChunkManager::ChunkManager()
@@ -42,20 +46,22 @@ namespace GameEngine
 			addChunk(serializer.loadChunk(it));
 			
 		}
-		//Coordinate c = chunkPosToWorldPos({ 0,-1 });
-		/*addChunk({ 0,-1 });
-		addChunk({ 1,-1 });
-		addChunk({ 2,-1 });
-		addChunk({ 2,0 });
-		addChunk({ -1,-1 });
-		addChunk({ -2,-1 });
-		addChunk({ -3,-1 });
-		addChunk({ -3,0 });*/
-		
-		/*newChunk({0,0});
-		newChunk({ 1,0 });
-		newChunk({ -2,0 });
-		newChunk({ -1,0 });*/
+
+		/*newChunk({0,0}, false);
+		newChunk({ 1,0 }, false);
+		newChunk({ -2,0 }, false);
+		newChunk({ -1,0 }, false);
+		newChunk({ -2,0 }, true);
+		newChunk({ -3,0 }, true);*/
+
+		/*newChunk({0,-1}, true);
+		newChunk({ 1,-1 }, true);
+		newChunk({ -2,-1 }, true);
+		newChunk({ -1,-1 }, true);
+		newChunk({ -2,-1 }, true);
+		newChunk({ -3,-1 }, true);*/
+
+
 
 	}
 

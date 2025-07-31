@@ -1,14 +1,23 @@
 #pragma once
-#include "chunks/chunkcoordinate.h"
+#include "chunks/coordinate.h"
+#include "chunks/chunkmanager.h"
+#include "rendering/camera.h"
 
 namespace GameEngine
 {
 	class IWorld
 	{
 	public:
-		virtual ~IWorld() = 0;
-		virtual bool breakBlock(WorldCoordinate pos) = 0;
-		virtual bool isBlockAt(WorldCoordinate pos) = 0;
-		virtual bool placeBlock(WorldCoordinate pos) = 0;
+		IWorld(Camera* _camera) : camera(_camera)
+		{
+
+		}
+		
+		virtual void update(f32 dt) = 0;
+		virtual void render() = 0;
+
+	public:
+		IChunkManager* chunkManager;
+		Camera* camera;
 	};
 }

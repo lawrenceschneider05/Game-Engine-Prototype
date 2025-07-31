@@ -1,7 +1,10 @@
 #pragma once
 #include "types.h"
+#include "glm/glm.hpp"
+
 #include <functional>  // for std::hash
 #include <cstddef>     // for std::size_t
+
 
 namespace GameEngine
 {
@@ -23,6 +26,21 @@ namespace GameEngine
 		{
 			return x == other.x && y == other.y;
 		}
+
+		explicit operator glm::vec2() const
+		{
+			return glm::vec2(x, y);
+		}
+
+		Coordinate(const glm::vec2& vec)
+			: x(vec.x), y(vec.y)
+		{	}
+
+		Coordinate() : x(0), y(0)
+		{	}
+
+		Coordinate(f32 _x, f32 _y) : x(_x), y(_y)
+		{	}
 	};
 }
 

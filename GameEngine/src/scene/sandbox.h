@@ -6,15 +6,20 @@
 
 namespace GameEngine
 {
-	class Sandbox : public IScene
+	class Sandbox : public IWorld
 	{
 	public:
-		Sandbox(Camera&);
+		Sandbox(Camera*);
+		~Sandbox();
 		void update(f32 dt) override;
 		void render() override;
+
+		inline ChunkManager* getCM()
+		{
+			return (ChunkManager*)chunkManager;
+		}
 	private:
 		Player player;
-		ChunkManager cm;
 		PhysicsManager pm;
 	};
 }

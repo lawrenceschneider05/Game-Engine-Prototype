@@ -3,7 +3,7 @@
 
 namespace GameEngine
 {
-	Game::Game(Camera& _camera) : camera(_camera), sandbox(_camera)
+	Game::Game(Camera& _camera) : camera(_camera), sandbox(&_camera)
 	{
 		
 	}

@@ -4,7 +4,7 @@
 
 namespace GameEngine
 {
-	Player::Player(f32 x, f32 y, f32 w, f32 h) : IActor(true, x, y, w, h)
+	Player::Player(f32 x, f32 y, f32 w, f32 h, IWorld* _world) : IActor(true, x, y, w, h), world(_world)
 	
 	{
 
@@ -12,7 +12,11 @@ namespace GameEngine
 
 	void Player::update()
 	{
-
+		if (Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT))
+		{
+			Coordinate c = world->camera->ScreenToWorld(Input::getMousePosition());
+			world->chunkManager->removeBlock(c);
+		}
 		if (Input::isKeyPressed(GLFW_KEY_A))
 		{
 			shouldMoveLeft = true;

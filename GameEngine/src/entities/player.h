@@ -1,12 +1,13 @@
 #pragma once
 #include "iactor.h"
+#include <scene/iworld.h>
 
 namespace GameEngine
 {
 	class Player : public IActor
 	{
 	public:
-		Player(f32 x, f32 y, f32 w, f32 h);
+		Player(f32 x, f32 y, f32 w, f32 h, IWorld* world);
 		void update() override;
 		void render() override;
 	private:
@@ -26,5 +27,7 @@ namespace GameEngine
 		const f32 MOVEMENT_DEACCELERATION = 64;
 		const f32 JUMP_INITIAL_VELOCITY = 256;
 		const f32 HORIZONTAL_INITIAL_VELOCITY = 32;
+
+		IWorld* world;
 	};
 }

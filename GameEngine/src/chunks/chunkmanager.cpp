@@ -6,25 +6,90 @@
 
 #include <string>
 #include <cmath>
+#include <iostream>
 
 using std::to_string;
+using std::cout;
 
 namespace GameEngine
 {
+	void ChunkManager::addChunk(ChunkCoordinate coord)
+	{
+		Chunk* chunk = new Chunk(chunkPosToWorldPos(coord), coord);
+
+		for (auto i = 0; i < 256; i++)
+		{
+			chunk->setBlock(i);
+		}
+
+		chunks.insert({ coord, chunk });
+		colliders.insert({ coord, chunk->getColliders() });
+		dirtyChunks.insert(coord);
+		collidersDirty = true;
+		
+	}
+
 	ChunkManager::ChunkManager()
 	{
-		for (auto& it : serializer.getCoordinates())
+		/*for (auto& it : serializer.getCoordinates())
 		{
 			chunks.insert({ it, serializer.loadChunk(it) });
-		}
+		}*/
+		//Coordinate c = chunkPosToWorldPos({ 0,-1 });
+		addChunk({ 0,-1 });
+		addChunk({ 1,-1 });
+		addChunk({ 2,-1 });
+		addChunk({ 2,0 });
+		addChunk({ -1,-1 });
+		addChunk({ -2,-1 });
+		addChunk({ -3,-1 });
+		addChunk({ -3,0 });
 	}
 
 	ChunkManager::~ChunkManager()
 	{
 		for (auto& it : chunks)
 		{
-			serializer.unloadChunk(it.second);
+			//serializer.unloadChunk(it.second);
 			delete it.second;
+		}
+	}
+
+	void ChunkManager::renderTile(TileType t, Coordinate c)
+	{
+		if (!t) { return; }
+		switch (t)
+		{
+		case TILE_EMPTY:
+			return;
+		case TILE_GRASS:
+			Renderer::drawQuad({ c.x, c.y }, { TILE_WIDTH, TILE_HEIGHT }, { 0.0f, 0.0f, 0.0f, 1.0f });
+			return;
+		}
+	}
+
+	void ChunkManager::renderChunk(Chunk* c)
+	{
+		if (!c) { return; }
+		f32 chunkX = c->getWorldCoordinates().x;
+		f32 chunkY = c->getWorldCoordinates().y;
+		for (int i = 0; i < 256; i++)
+		{
+			i32 tileX = (i % 16);
+			i32 tileY = (i / 16);
+			f32 x = (chunkX)+tileX * TILE_WIDTH;
+			f32 y = (chunkY)+tileY * TILE_HEIGHT;
+			
+			renderTile(c->getTileAt({ x,y }), { x, y });
+		}
+	}
+
+	void ChunkManager::render()
+	{
+		//cout << cleanColliders.size() << "\n";
+		for (auto& it : chunks)
+		{
+			renderChunk(it.second);
 		}
 	}
 
@@ -45,16 +110,36 @@ namespace GameEngine
 	bool ChunkManager::isBlockAt(Coordinate position)
 	{
 		return getChunkAt(position)->isBlockAt(position);
-		return false;
 	}
 
-	vector<AABB> ChunkManager::getColliders()
+	void ChunkManager::updateDirtyColliders()
 	{
-		if (!dirtyChunks.empty()) {
-			updateDirtyColliders();
+		for (const auto& chunkCoord : dirtyChunks)
+		{
+			auto it = chunks.find(chunkCoord);
+			
+			if (it != chunks.end() && it->second)
+			{
+				auto coll = it->second->getColliders();
+
+				colliders[chunkCoord] = it->second->getColliders();
+				collidersDirty = true;
+			}
+			else
+			{
+				colliders.erase(chunkCoord);
+			}
 		}
+		dirtyChunks.clear();
+	}
+
+	const vector<AABB>& ChunkManager::getColliders()
+	{
+		
+		updateDirtyColliders();
 		if (collidersDirty)
 		{
+			
 			cleanColliders.clear();
 			for (auto& a : colliders)
 			{
@@ -62,6 +147,7 @@ namespace GameEngine
 			}
 			collidersDirty = false;
 		}
+		
 		return cleanColliders;
 	}
 
@@ -73,19 +159,15 @@ namespace GameEngine
 		};
 	}
 
-	void ChunkManager::updateDirtyColliders()
+	Coordinate ChunkManager::chunkPosToWorldPos(ChunkCoordinate coordinate)
 	{
-		for (const auto& chunkCoord : dirtyChunks)
-		{
-			auto it = chunks.find(chunkCoord);
-			if (it != chunks.end() && it->second)
-			{
-				colliders[chunkCoord] = it->second->getColliders();
-				collidersDirty = true;
-			}
-		}
-		dirtyChunks.clear();
+		return {
+		coordinate.x * CHUNK_WIDTH_PIXELS,
+		coordinate.y * CHUNK_HEIGHT_PIXELS
+		};
 	}
+
+	
 
 	vector<AABB>& ChunkManager::getColliderAt(Coordinate position)
 	{
@@ -107,13 +189,13 @@ namespace GameEngine
 	void ChunkManager::loadChunk(Coordinate position)
 	{
 		ChunkCoordinate cord = worldPosToChunkPos(position);
-		Chunk* c = serializer.loadChunk(cord);
+		//Chunk* c = serializer.loadChunk(cord);
 
-		chunks.insert({ cord, c });
+		//chunks.insert({ cord, c });
 	}
 
 	void ChunkManager::unloadChunk(Coordinate position)
 	{
-		serializer.unloadChunk(getChunkAt(position));
+		//serializer.unloadChunk(getChunkAt(position));
 	}
 }

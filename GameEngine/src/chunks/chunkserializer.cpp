@@ -38,13 +38,12 @@ namespace GameEngine
 			return nullptr;
 		}
 
-
-
-		Chunk* chunk = new Chunk(c);
-		i32 count = 16 * 16;
-		in.read(reinterpret_cast<char*>(chunk->getTileData()), count * sizeof(TileType));
+		Coordinate cord;
+		in.read(reinterpret_cast<char*>(&cord), sizeof(cord));
+		Chunk* chunk = new Chunk(cord, c);
+		in.read(reinterpret_cast<char*>(chunk->getTileData().data()), chunk->getTileData().size() * sizeof(TileType));
 		in.close();
-		//std::cout << "tile size: " << chunk->getTiles()[0].type << "\n";
+		//chunk->generateColliders();
 		return chunk;
 	}
 	void ChunkSerializer::unloadChunk(Chunk* chunk)
@@ -52,10 +51,8 @@ namespace GameEngine
 		if (!chunk) { return; }
 		if (!chunkExists(chunk->getChunkCoordinates()))
 		{
-			coordinates.push_back({ chunk->getChunkCoordinates() });
-			//std::cout << "Coordsinates size: " << coordinates.size() << "\n";
+			coordinates.push_back(chunk->getChunkCoordinates());
 		}
-		
 
 		stringstream fileName;
 		fileName << directory << chunk->getChunkCoordinates().x << "_" << chunk->getChunkCoordinates().y << ".bin";
@@ -65,10 +62,13 @@ namespace GameEngine
 			std::cerr << "Failed to open file for writing: " << fileName.str() << "\n";
 			return;
 		}
-		i32 count = 256;
-		out.write(reinterpret_cast<char*>(chunk->getTileData()), count * sizeof(TileType));
+
+		Coordinate coord = chunk->getWorldCoordinates();
+		out.write(reinterpret_cast<char*>(&coord), sizeof(coord)); // Write position first
+		out.write(reinterpret_cast<char*>(chunk->getTileData().data()), chunk->getTileData().size() * sizeof(TileType)); // Then tile data
 		out.close();
 	}
+
 
 	void ChunkSerializer::loadCoordinates()
 	{

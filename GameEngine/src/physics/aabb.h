@@ -5,6 +5,11 @@ namespace GameEngine
 	struct AABB
 	{
 		f32 x, y, w, h;
+
+		bool operator == (const AABB& other) const
+		{
+			return x == other.x && y == other.y && w == other.w && h == other.h;
+		}
 	};
 
 

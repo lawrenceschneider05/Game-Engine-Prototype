@@ -151,7 +151,6 @@
     <ClCompile Include="src\core\game.cpp" />
     <ClCompile Include="src\entities\player.cpp" />
     <ClCompile Include="src\input\input.cpp" />
-    <ClCompile Include="src\physics\physics.cpp" />
     <ClCompile Include="src\rendering\camera.cpp" />
     <ClCompile Include="src\rendering\shader.cpp" />
     <ClCompile Include="src\core\application.cpp" />
@@ -177,6 +176,7 @@
     <ClInclude Include="src\events\mouseclickedevent.h" />
     <ClInclude Include="src\physics\aabb.h" />
     <ClInclude Include="src\physics\collision.h" />
+    <ClInclude Include="src\physics\physics.h" />
     <ClInclude Include="src\physics\physicsmanager.h" />
     <ClInclude Include="src\core\game.h" />
     <ClInclude Include="src\entities\iactor.h" />
@@ -185,7 +185,6 @@
     <ClInclude Include="src\entities\player.h" />
     <ClInclude Include="src\input\input.h" />
     <ClInclude Include="src\input\keycodes.h" />
-    <ClInclude Include="src\physics\physics.h" />
     <ClInclude Include="src\rendering\shader.h" />
     <ClInclude Include="src\core\application.h" />
     <ClInclude Include="src\log\logger.h" />

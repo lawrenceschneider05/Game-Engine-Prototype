@@ -1,28 +1,10 @@
-//#include "chunk.h"
-//using std::fill;
-//
-//namespace GameEngine
-//{
-//	Chunk::Chunk(ChunkCoordinate coords) : coordinates(coords)
-//	{
-//		fill(tiles.begin(), tiles.end(), TileType::TILE_EMPTY);
-//	}
-//	TileType Chunk::getTile(i32 x, i32 y)
-//	{
-//		return tiles[indexOf(x, y)];
-//	}
-//
-//	void Chunk::setTile(i32 x, i32 y, TileType t)
-//	{
-//		tiles[indexOf(x, y)] = t;
-//	}
-//}
-
 #include "chunk.h"
 
 #include <algorithm>
+#include <iostream>
 
 using std::remove;
+using std::cout;
 
 namespace GameEngine
 {
@@ -30,6 +12,20 @@ namespace GameEngine
         worldPosition(_worldPosition), chunkPosition(_chunkPosition)
     {
 
+    }
+    void Chunk::generateColliders()
+    {
+        for (u32 i = 0; i < tileData.size(); i++)
+        {
+            const TileType& t = tileData[i];
+            switch (t)
+            {
+            case TILE_EMPTY:
+                continue;
+            case TILE_GRASS:
+                colliders.push_back(tileToAABB(i));
+            }
+        }
     }
 	void Chunk::addBlock(Coordinate pos)
 	{
@@ -40,6 +36,7 @@ namespace GameEngine
         }
         dirty = true;
         addCollider(pos);
+        //tileData.push_back({ chunkPos, TILE_GRASS });
         tileData[chunkPos] = TILE_GRASS;
 	}
 
@@ -52,25 +49,27 @@ namespace GameEngine
         }
         dirty = true;
         tileData[chunkPos] = TILE_EMPTY;
+        removeCollider(chunkPos);
     }
 
     bool Chunk::isBlockAt(Coordinate pos)
     {
         u32 chunkPos = worldPosToChunkPos(pos);
-        return (chunkPos == TILE_GRASS);
+        return (tileData[chunkPos] == TILE_GRASS);
     }
 
     u32 Chunk::worldPosToChunkPos(Coordinate pos)
     {
-        f32 localX = pos.x - worldPosition.x;
-        f32 localY = pos.y - worldPosition.y;
+        // Convert from world position to local tile coordinates
+        f32 localX = (pos.x - worldPosition.x) / TILE_WIDTH;
+        f32 localY = (pos.y - worldPosition.y) / TILE_HEIGHT;
 
         if (localX < 0 || localX >= CHUNK_WIDTH_TILES || localY < 0 || localY >= CHUNK_HEIGHT_TILES)
         {
-            return -1;
+            return std::numeric_limits<u32>::max(); // or any invalid value
         }
 
-        return (u32)(localY * CHUNK_WIDTH_TILES + localX);
+        return (u32)(localY)*CHUNK_WIDTH_TILES + (u32)(localX);
     }
 
     Coordinate Chunk::chunkPosToWorldPos(u32 chunkPos)
@@ -88,7 +87,7 @@ namespace GameEngine
         return b;
     }
 
-    vector<AABB> Chunk::getColliders()
+    vector<AABB>& Chunk::getColliders()
     {
         return colliders;
     }
@@ -124,5 +123,20 @@ namespace GameEngine
     void Chunk::removeCollider(Coordinate worldPos)
     {
         removeCollider(worldPosToChunkPos(worldPos));
+    }
+
+    array<TileType, CHUNK_WIDTH_TILES* CHUNK_HEIGHT_TILES>& Chunk::getTileData()
+    {
+        return tileData;
+    }
+
+    TileType Chunk::getTileAt(Coordinate position)
+    {
+        u32 pos = worldPosToChunkPos(position);
+        if (pos < 256)
+        {
+            return tileData[pos];
+        }
+        return TILE_EMPTY;
     }
 }

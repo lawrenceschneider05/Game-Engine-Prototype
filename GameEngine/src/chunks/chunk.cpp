@@ -31,6 +31,10 @@ namespace GameEngine
 	void Chunk::addBlock(Coordinate pos)
 	{
         u32 chunkPos = worldPosToChunkPos(pos);
+        if (chunkPos >= tileData.size())
+        {
+            return;
+        }
         if (tileData[chunkPos] == TILE_GRASS)
         {
             return;
@@ -44,6 +48,10 @@ namespace GameEngine
     void Chunk::removeBlock(Coordinate pos)
     {
         u32 chunkPos = worldPosToChunkPos(pos);
+        if (chunkPos >= tileData.size())
+        {
+            return;
+        }
         if (tileData[chunkPos] == TILE_EMPTY)
         {
             return;
@@ -53,15 +61,27 @@ namespace GameEngine
         removeCollider(chunkPos);
     }
 
-    bool Chunk::isBlockAt(Coordinate pos)
+    bool Chunk::isBlockAt(const Coordinate& pos)
     {
+        if (!pos.x || !pos.y)
+        {
+            return false;
+        }
         u32 chunkPos = worldPosToChunkPos(pos);
+        if (chunkPos >= tileData.size())
+        {
+            return false;
+        }
         return (tileData[chunkPos] == TILE_GRASS);
     }
 
     u32 Chunk::worldPosToChunkPos(Coordinate pos)
     {
         // Convert from world position to local tile coordinates
+        if (!pos.x || !pos.y)
+        {
+            return false;
+        }
         f32 localX = (pos.x - worldPosition.x) / TILE_WIDTH;
         f32 localY = (pos.y - worldPosition.y) / TILE_HEIGHT;
 

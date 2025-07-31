@@ -114,21 +114,36 @@ namespace GameEngine
 
 	bool ChunkManager::addBlock(Coordinate position)
 	{
-		getChunkAt(position)->addBlock(position);
+		Chunk* c = getChunkAt(position);
+		if (!c)
+		{
+			return false;
+		}
+		c->addBlock(position);
 		dirtyChunks.insert(worldPosToChunkPos(position));
 		return false;
 	}
 
 	bool ChunkManager::removeBlock(Coordinate position)
 	{
-		getChunkAt(position)->removeBlock(position);
+		Chunk* c = getChunkAt(position);
+		if (!c)
+		{
+			return false;
+		}
+		c->removeBlock(position);
 		dirtyChunks.insert(worldPosToChunkPos(position));
 		return false;
 	}
 
 	bool ChunkManager::isBlockAt(Coordinate position)
 	{
-		return getChunkAt(position)->isBlockAt(position);
+		Chunk* c = getChunkAt(position);
+		if (!c)
+		{
+			return false;
+		}
+		return c->isBlockAt(position);
 	}
 
 	void ChunkManager::updateDirtyColliders()

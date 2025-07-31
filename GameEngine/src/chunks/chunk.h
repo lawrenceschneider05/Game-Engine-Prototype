@@ -25,7 +25,7 @@ namespace GameEngine
 
 		void addBlock(Coordinate pos);
 		void removeBlock(Coordinate pos);
-		bool isBlockAt(Coordinate pos);
+		bool isBlockAt(const Coordinate& pos);
 
 		void setBlock(u32 position)
 		{

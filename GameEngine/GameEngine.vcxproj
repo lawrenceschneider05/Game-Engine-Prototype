@@ -154,7 +154,6 @@
     <ClCompile Include="src\rendering\camera.cpp" />
     <ClCompile Include="src\rendering\shader.cpp" />
     <ClCompile Include="src\core\application.cpp" />
-    <ClCompile Include="src\log\logger.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\rendering\indexbuffer.cpp" />
     <ClCompile Include="src\rendering\rendercommand.cpp" />
@@ -174,6 +173,7 @@
     <ClInclude Include="src\events\eventbus.h" />
     <ClInclude Include="src\events\ievent.h" />
     <ClInclude Include="src\events\mouseclickedevent.h" />
+    <ClInclude Include="src\log\logger.h" />
     <ClInclude Include="src\physics\aabb.h" />
     <ClInclude Include="src\physics\collision.h" />
     <ClInclude Include="src\physics\physics.h" />
@@ -187,7 +187,6 @@
     <ClInclude Include="src\input\keycodes.h" />
     <ClInclude Include="src\rendering\shader.h" />
     <ClInclude Include="src\core\application.h" />
-    <ClInclude Include="src\log\logger.h" />
     <ClInclude Include="src\rendering\camera.h" />
     <ClInclude Include="src\rendering\indexbuffer.h" />
     <ClInclude Include="src\rendering\quadvertex.h" />
